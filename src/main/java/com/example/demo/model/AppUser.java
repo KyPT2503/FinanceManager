@@ -16,6 +16,8 @@ public class AppUser {
     private String avatar;
     @Transient
     private MultipartFile avatarFile;
+    @ManyToOne
+    private AppRole role;
 
     public AppUser() {
     }
@@ -66,5 +68,13 @@ public class AppUser {
 
     public void setAvatarFile(MultipartFile avatarFile) {
         this.avatarFile = avatarFile;
+    }
+
+    public AppRole getRole() {
+        return role;
+    }
+
+    public void setRole(AppRole role) {
+        this.role = role;
     }
 }
