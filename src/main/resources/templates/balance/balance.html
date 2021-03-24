@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>balance show new</title>
 </head>
 <body>
-$END$
+<form action="@{/balance/create}" th:object="${balance}" method="post">
+    <input type="number" th:field="id">
+    <input type="date" th:field="*{startDay}">
+    <input type="date" th:field="*{endDay}">
+    <input type="number" th:field="*{money}">
+    <input type="submit" value="Add">
+</form>
 </body>
 </html>
