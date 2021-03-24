@@ -3,9 +3,11 @@ package com.example.demo.service.user;
 import com.example.demo.model.AppUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AppUserService implements IAppUserService{
     @Override
     public List<AppUser> findAll() {
