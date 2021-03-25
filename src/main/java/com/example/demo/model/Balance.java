@@ -9,20 +9,20 @@ public class Balance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private AppUser appUser;
     private Date startDay;
     private Date endDay;
     private double money;
+    @ManyToOne
+    private AppUser appUser;
 
     public Balance() {
     }
 
-    public Balance(AppUser appUser, Date startDay, Date endDay, double money) {
-        this.appUser = appUser;
+    public Balance(Date startDay, Date endDay, double money,AppUser appUser) {
         this.startDay = startDay;
         this.endDay = endDay;
         this.money = money;
+        this.appUser = appUser;
     }
 
     public Long getId() {
