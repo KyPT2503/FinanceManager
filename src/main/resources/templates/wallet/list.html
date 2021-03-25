@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Tên ví</td>
+        <td>Số dư</td>
+        <td>Xóa</td>
+        <td>Sửa</td>
+    </tr>
+    <tr th:each="w:${wallet}">
+        <td th:text="${w.name}"></td>
+        <td th:text="${w.money}"></td>
+        <td></td>
+        <td><a th:href="@{/wallets/edit/{id}(id=${w.id})}">Sửa</a></td>
+    </tr>
+</table>
+</body>
+</html>
