@@ -7,10 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping
 public class LoginController {
-    @GetMapping("")
-    public ModelAndView getLoginPage() {
-        return null;
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "/login";
+    }
+    @GetMapping
+    public String home() {
+        return "/home";
     }
 }

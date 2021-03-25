@@ -25,7 +25,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/**").hasRole("USER")
                 .and()
-                .formLogin().loginPage("/log")
+                .formLogin().loginPage("/login")
+//                .loginProcessingUrl("/check_login") // Submit URL
+//                .defaultSuccessUrl("/")//
+//                .failureUrl("/login?error=true")//
+//                .usernameParameter("username")//
+//                .passwordParameter("password")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().exceptionHandling().accessDeniedPage("/denied-access");
