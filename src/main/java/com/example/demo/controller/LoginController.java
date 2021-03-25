@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/")
 public class LoginController {
-    @GetMapping("")
+    @RequestMapping("/log")
     public ModelAndView getLoginPage() {
-        return null;
+        return new ModelAndView("users/log");
+    }
+    @GetMapping("/register")
+    public ModelAndView getRegisterPage(){
+        return new ModelAndView("users/register");
     }
 }
