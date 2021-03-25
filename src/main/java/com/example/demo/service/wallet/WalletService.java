@@ -27,11 +27,16 @@ public class WalletService implements IWalletService{
 
     @Override
     public Wallet update(Wallet wallet) {
-        return null;
+        return iWalletRepository.save(wallet);
     }
 
     @Override
     public Wallet findById(Long id) {
-        return null;
+        return iWalletRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Wallet> findByProductName(String name) {
+        return iWalletRepository.findProductName(name);
     }
 }

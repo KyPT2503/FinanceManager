@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.Wallet;
 import com.example.demo.service.wallet.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,9 +54,23 @@ public class WalletController {
     public ModelAndView edit(@PathVariable Long id, @ModelAttribute Wallet wallet) {
         wallet.setId(id);
         iWalletService.add(wallet);
-        return new ModelAndView("redirect:/wallet/list");
+        return new ModelAndView("redirect:/wallets");
     }
 
+//    @GetMapping
+//    public ModelAndView delete(@PathVariable String wallet){
+//        ModelAndView modelAndView = new ModelAndView("redirect:/wallet/list");
+//        iWalletService.remove(wallet);
+//    }
 
 
+    @PostMapping("/search")
+    public ModelAndView searchProductByName(@RequestParam String search) {
+        search = "%" + search + "%";
+        List<Wallet> wallets = iWalletService.findByProductName(search);
+        if (wallets.size() == 0) return new ModelAndView("error-404");
+        ModelAndView modelAndView=new ModelAndView("wallet/list");
+        modelAndView.addObject("wallet",wallets);
+        return modelAndView;
+    }
 }
