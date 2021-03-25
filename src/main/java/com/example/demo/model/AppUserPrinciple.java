@@ -21,10 +21,11 @@ public class AppUserPrinciple implements UserDetails {
         this.roles = roles;
     }
 
-    public static AppUserPrinciple build(AppUser admin) {
+    public static AppUserPrinciple build(AppUser appUser) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(admin.getRole().getName()));
-        return new AppUserPrinciple(admin.getId(), admin.getName(), admin.getPassword(),authorities);
+            authorities.add(new SimpleGrantedAuthority(appUser.getRole().getName()));
+        System.out.println("đã có được authorize " + appUser.getRole().getName());
+        return new AppUserPrinciple(appUser.getId(), appUser.getEmail(), appUser.getPassword(),authorities);
     }
 
     @Override

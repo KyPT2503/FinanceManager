@@ -46,12 +46,12 @@ public class AppUserService implements IAppUserService{
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = repository.findByName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        AppUser appUser = repository.findByEmail(email);
         if (appUser == null ) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
-
+        System.out.println("đã nhận UserDetail từ "+email);
         return AppUserPrinciple.build(appUser);
     }
 

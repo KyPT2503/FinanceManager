@@ -19,8 +19,8 @@ public class DemoApplication {
     public IBalanceService balanceService() {
         return new BalanceServiceImpl();
     }
-    @Bean
-    public IAppUserService appUserService() {
-        return new AppUserService();
-    }
+//    @Bean
+//    public IAppUserService appUserService() {
+//        return new AppUserService();
+//    }
 }

@@ -15,10 +15,6 @@ public class BalanceController {
     @Autowired
     private IBalanceService balanceService;
 
-    @GetMapping
-    public String home() {
-        return "home";
-    }
 
     @GetMapping("/create")
     public ModelAndView showFormCreateBalance() {
