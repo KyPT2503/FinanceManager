@@ -68,7 +68,7 @@ public class WalletController {
     public ModelAndView searchProductByName(@RequestParam String search) {
         search = "%" + search + "%";
         List<Wallet> wallets = iWalletService.findByProductName(search);
-        if (wallets.size() == 0) return new ModelAndView("error-404");
+//        if (wallets.size() == 0) return new ModelAndView("error-404");
         ModelAndView modelAndView=new ModelAndView("wallet/list");
         modelAndView.addObject("wallet",wallets);
         return modelAndView;
