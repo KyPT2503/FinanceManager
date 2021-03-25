@@ -1,11 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.AppUser;
+import com.example.demo.model.Balance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser,Long> {
-
-    AppUser findByEmail(String username);
+public interface BalanceRepository extends JpaRepository<Balance,Long> {
 }

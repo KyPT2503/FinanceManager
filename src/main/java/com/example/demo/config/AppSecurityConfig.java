@@ -26,11 +26,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/**").hasRole("USER")
                 .and()
                 .formLogin().loginPage("/login")
-//                .loginProcessingUrl("/check_login") // Submit URL
-//                .defaultSuccessUrl("/")//
-//                .failureUrl("/login?error=true")//
-//                .usernameParameter("username")//
-//                .passwordParameter("password")
+                .loginProcessingUrl("/check_login") // Submit URL
+                .defaultSuccessUrl("/")//
+                .failureUrl("/login?error=true")//
+                .usernameParameter("username")//
+                .passwordParameter("password")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().exceptionHandling().accessDeniedPage("/denied-access");
