@@ -3,9 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.Wallet;
 import com.example.demo.service.wallet.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,11 +54,13 @@ public class WalletController {
         return new ModelAndView("redirect:/wallets");
     }
 
-//    @GetMapping
-//    public ModelAndView delete(@PathVariable String wallet){
-//        ModelAndView modelAndView = new ModelAndView("redirect:/wallet/list");
-//        iWalletService.remove(wallet);
-//    }
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable Long id,@PathVariable Wallet wallet){
+        ModelAndView modelAndView = new ModelAndView("redirect:/wallets");
+        wallet.setId(id);
+        iWalletService.remove(wallet);
+        return modelAndView;
+    }
 
 
     @PostMapping("/search")

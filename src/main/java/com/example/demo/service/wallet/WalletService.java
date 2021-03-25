@@ -22,8 +22,10 @@ public class WalletService implements IWalletService{
 
     @Override
     public boolean remove(Wallet wallet) {
-        return false;
+        iWalletRepository.delete(wallet);
+        return true ;
     }
+
 
     @Override
     public Wallet update(Wallet wallet) {
@@ -39,4 +41,6 @@ public class WalletService implements IWalletService{
     public List<Wallet> findByProductName(String name) {
         return iWalletRepository.findProductName(name);
     }
+
+
 }

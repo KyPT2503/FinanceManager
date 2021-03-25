@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Wallet</title>
+<style>
+
+</style>
 </head>
 <body>
 <th:block th:if="${mess}">
@@ -12,9 +15,7 @@
     <div>
         <label>Name</label>
         <input type="text" th:field="*{name}"/>
-        <div id="validationServer03Feedback" class="invalid-feedback">
-            Please provide a valid name.
-        </div>
+
     </div>
     <div>
         <label>Money</label>
