@@ -18,6 +18,13 @@ public class Balance {
     public Balance() {
     }
 
+    public Balance(AppUser appUser, Date startDay, Date endDay, double money) {
+        this.appUser = appUser;
+        this.startDay = startDay;
+        this.endDay = endDay;
+        this.money = money;
+    }
+
     public Long getId() {
         return id;
     }

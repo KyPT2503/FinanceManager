@@ -6,10 +6,10 @@
 </head>
 <body>
 <form action="@{/balance/create}" th:object="${balance}" method="post">
-    <input type="number" th:field="id">
+<!--    <input type="number" th:field="id">-->
     <input type="date" th:field="*{startDay}">
     <input type="date" th:field="*{endDay}">
-    <input type="number" th:field="*{money}">
+    <input type="number" th:field="*{money}" placeholder="Enter Money">
     <input type="submit" value="Add">
 </form>
 </body>
