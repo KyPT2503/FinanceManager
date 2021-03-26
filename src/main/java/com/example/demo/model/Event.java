@@ -20,9 +20,6 @@ public class Event {
     private Date date;
     private String note;
 
-    @Transient
-    private Date dateConvert;
-
     public Event() {
     }
 
