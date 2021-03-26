@@ -8,6 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class ReportController {
     @GetMapping("/report")
     public ModelAndView getReportPage(){
-        return new ModelAndView("/report");
+        return new ModelAndView("/report/reportPage2");
     }
 }
