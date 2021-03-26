@@ -38,7 +38,7 @@ public class WalletService implements IWalletService{
     }
 
     @Override
-    public List<Wallet> findByProductName(String name) {
+    public List<Wallet> findByWalletName(String name) {
         return iWalletRepository.findProductName(name);
     }
 

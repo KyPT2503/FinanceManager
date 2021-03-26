@@ -6,6 +6,6 @@ import com.example.demo.service.IGeneralService;
 import java.util.List;
 
 public interface IWalletService extends IGeneralService<Wallet> {
-    List<Wallet> findByProductName(String name);
+    List<Wallet> findByWalletName(String name);
 
 }
