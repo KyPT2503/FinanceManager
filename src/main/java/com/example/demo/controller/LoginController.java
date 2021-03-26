@@ -1,15 +1,57 @@
 package com.example.demo.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.model.AppRole;
+import com.example.demo.model.AppUser;
+import com.example.demo.service.user.IAppUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.io.IOException;
 
-@Controller
+@RestController
+@RequestMapping("/")
 public class LoginController {
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "/login";
+    @Autowired
+    Environment environment;
+    @Autowired
+    private IAppUserService appUserService;
+
+    @ModelAttribute("user")
+    public AppUser getCurrentUser() {
+        return appUserService.getCurrentUser();
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView getLoginPage() {
+        return new ModelAndView("users/log");
+    }
+
+    @GetMapping("/register")
+    public ModelAndView getRegisterPage() {
+        AppUser appUser = new AppUser();
+        return new ModelAndView("users/register", "newUser", appUser);
+    }
+
+    @PostMapping("/register")
+    public AppUser register(@ModelAttribute("newUser") AppUser appUser) {
+        MultipartFile image = appUser.getAvatarFile();
+        String path = image.getOriginalFilename();
+        appUser.setAvatar(path);
+        try {
+            FileCopyUtils.copy(image.getBytes(), new File(environment.getProperty("IMAGE_SOURCE") + path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return appUserService.add(appUser);
+    }
+
+    @GetMapping("/current-user")
+    public AppUser appUser() {
+        return appUserService.getCurrentUser();
     }
 }
