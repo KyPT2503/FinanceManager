@@ -20,7 +20,24 @@ public class Event {
     private Date date;
     private String note;
 
+    @Transient
+    private Date dateConvert;
+
     public Event() {
+    }
+
+    public Event(String name, String note) {
+        this.name = name;
+        this.note = note;
+    }
+
+    public Event(AppUser user, Wallet wallet, GroupAction groupAction, String name, double money, String note) {
+        this.user = user;
+        this.wallet = wallet;
+        this.groupAction = groupAction;
+        this.name = name;
+        this.money = money;
+        this.note = note;
     }
 
     public Long getId() {

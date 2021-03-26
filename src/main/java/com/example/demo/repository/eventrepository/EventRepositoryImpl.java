@@ -1,7 +1,10 @@
 package com.example.demo.repository.eventrepository;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Event;
 import com.example.demo.dto.EventDTO;
+import com.example.demo.model.GroupAction;
+import com.example.demo.model.Wallet;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,7 +30,25 @@ public class EventRepositoryImpl implements EventCustomRepository {
                 && event.getEndDate() != null && !"".equals(event.getEndDate().trim())) {
             sql.append(" and date between " + "'" + event.getDate() + "'" + " and " + "'" + event.getEndDate() + "'");
         }
-        System.out.println(" and date between " + event.getDate() + "and" + event.getEndDate());
         return entityManager.createQuery(sql.toString()).getResultList();
     }
+
+    @Override
+    public Wallet getWalletByFK(String wallet) {
+        Wallet wallets = (Wallet) entityManager.createNativeQuery("select * from wallet where id = " + wallet, Wallet.class).getSingleResult();
+        return wallets;
+    }
+
+    @Override
+    public AppUser getUserByFK(String appUser) {
+        AppUser appUsers = (AppUser) entityManager.createNativeQuery("select * from app_user where id = " + appUser, AppUser.class).getSingleResult();
+        return appUsers;
+    }
+
+    @Override
+    public GroupAction getActionByFK(String groupAction) {
+        GroupAction action = (GroupAction) entityManager.createNativeQuery("select * from group_action where id = " + groupAction, GroupAction.class).getSingleResult();
+        return action;
+    }
+
 }
