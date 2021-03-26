@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div>
+    <div class="row p-3 mr-1 form-group">
+        <div class="col-md-1"></div>
+        <label for="name" class="col-md-2 col-form-label text-right">Name event</label>
+        <input class="form-control col-md-3" id="name" name="name">
+        <input class="form-control col-md-3" id="start-date" type="date" >
+        <input class="form-control col-md-3" id="end-date" type="date" >
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="group-action">
+            <option value="">Option</option>
+            <option value="1">Thu</option>
+            <option value="2">Chi</option>
+        </select>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Name</th>
+        <th scope="col">Money</th>
+        <th scope="col">Date</th>
+        <th scope="col">Wallet</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody id="table-event">
+
+    </tbody>
+</table>
+</body>
+<script>
+    search();
+    function search() {
+        const event = {
+            name: document.getElementById("name").value,
+            groupAction: document.getElementById("group-action").value,
+            date: document.getElementById("start-date").value,
+            endDate: document.getElementById("end-date").value
+        }
+        $.ajax('http://localhost:8080/show',
+            {
+                dataType: 'json',
+                timeout: 500,
+                type: 'POST',
+                contentType: 'application/json',
+                data:JSON.stringify(event),
+                success: loadTables,
+                error:function (jqXhr, textStatus, errorMessage) { // error callback
+                    console.log(jqXhr)
+                }
+        });
+    }
+
+    function loadTables(data) {
+        const row = document.getElementById("table-event");
+        let html = "";
+        let index = 0;
+        data.forEach(val =>{
+            index++;
+            html += `<tr><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td></tr>`
+        })
+        row.innerHTML = html;
+    }
+</script>
+</html>
