@@ -32,12 +32,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll()
                     .antMatchers("/user").access("hasRole('ROLE_USER')")
-                .and()
-                .authorizeRequests().antMatchers("/balance/**").access("hasRole('ROLE_USER')")
+//                .and()
+//                .authorizeRequests().antMatchers("/balance/**").access("hasRole('ROLE_USER')")
                 .and()
                 .formLogin()
                 .loginPage("/login")//
-                .loginProcessingUrl("/check_login") // Submit URL
+                .loginProcessingUrl("/check-login") // Submit URL
 //                .defaultSuccessUrl("/user")
                 .failureUrl("/login?error=true")//
                 .usernameParameter("email")//
