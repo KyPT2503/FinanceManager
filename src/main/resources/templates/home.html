@@ -32,9 +32,14 @@
                     <a href="#" class="nav-link">About</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Regite</a>
+                    <div sec:authorize="isAuthenticated()">
+                        <a href="/user/balance/create" class="nav-link">Limit</a>
+                    </div>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link">Event</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}" class="nav-link">Login</a>
                 </li>
 
@@ -44,8 +49,6 @@
 
 </nav>
 
-
-<a th:href="@{/login}">Đăng nhập</a>
 <div sec:authorize="isAuthenticated()">
     <span sec:authentication="principal.username"></span>
     <div><a th:href="@{/user/balance/create}">Đặt giới hạn chi tiêu</a></div>
