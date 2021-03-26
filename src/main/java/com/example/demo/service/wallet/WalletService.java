@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class WalletService implements IWalletService{
+public class WalletService implements IWalletService {
     @Autowired
     private IWalletRepository iWalletRepository;
+
     @Override
     public List<Wallet> findAll() {
         return (List<Wallet>) iWalletRepository.findAll();
@@ -23,7 +25,7 @@ public class WalletService implements IWalletService{
     @Override
     public boolean remove(Wallet wallet) {
         iWalletRepository.delete(wallet);
-        return true ;
+        return true;
     }
 
 
@@ -40,6 +42,11 @@ public class WalletService implements IWalletService{
     @Override
     public List<Wallet> findByWalletName(String name) {
         return iWalletRepository.findProductName(name);
+    }
+
+    @Override
+    public void deleteWallet(Long id) {
+        iWalletRepository.deleteById(id);
     }
 
 

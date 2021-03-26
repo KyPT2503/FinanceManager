@@ -40,10 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.POST,"/wallets/**").access("hasRole('ROLE_USER')")
                 .and().csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.PUT,"/wallets/**").access("hasRole('ROLE_USER')")
-                .and()
-                .authorizeRequests().antMatchers(HttpMethod.DELETE,"/wallets/**").access("hasRole('ROLE_USER')")
-                .and()
+
 
                 .formLogin()
                 .loginPage("/login")//
