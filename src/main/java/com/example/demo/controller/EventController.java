@@ -9,7 +9,7 @@ public class EventController {
 
     @GetMapping("event")
     public ModelAndView showListEvent(){
-        ModelAndView m = new ModelAndView("view");
+        ModelAndView m = new ModelAndView("event/view");
         return m;
     }
 }

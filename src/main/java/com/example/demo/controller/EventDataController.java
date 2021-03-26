@@ -17,7 +17,7 @@ public class EventDataController {
     @Autowired
     private EventService eventService;
 
-    @PostMapping("show")
+    @PostMapping("event/show")
     public List<Event> getEventList(@RequestBody EventDTO event){
         return eventService.search(event);
     }
