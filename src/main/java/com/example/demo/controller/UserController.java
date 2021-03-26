@@ -29,11 +29,11 @@ public class UserController {
 
     @GetMapping
     public String homeUser() {
-        return "/user/register";
+        return "/users/register";
     }
     @GetMapping("/create")
     public ModelAndView showCreateUser() {
-        ModelAndView mav = new ModelAndView("/user/create");
+        ModelAndView mav = new ModelAndView("/users/create");
         mav.addObject("user",new AppUser());
         return mav;
     }
@@ -49,7 +49,7 @@ public class UserController {
     public ModelAndView created(@ModelAttribute Balance balance) {
         balance.setAppUser(appUserService.getCurrentUser());
         balanceService.add(balance);
-        ModelAndView modelAndView = new ModelAndView("/user/register");
+        ModelAndView modelAndView = new ModelAndView("/users/register");
         return modelAndView;
     }
 

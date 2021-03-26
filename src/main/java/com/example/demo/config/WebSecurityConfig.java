@@ -1,3 +1,4 @@
+/*
 package com.example.demo.config;
 import com.example.demo.config.CustomSuccessHandler;
 import com.example.demo.service.user.AppUserService;
@@ -45,3 +46,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
 }
+*/
