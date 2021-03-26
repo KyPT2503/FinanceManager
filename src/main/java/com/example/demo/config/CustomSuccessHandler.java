@@ -1,3 +1,4 @@
+/*
 package com.example.demo.config;
 
 import org.springframework.security.core.Authentication;
@@ -67,3 +68,4 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
 }
+*/

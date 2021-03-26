@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.service.user.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
+@Configuration
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AppUserService appUserService;
@@ -23,11 +25,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/log").permitAll()
+        http.authorizeRequests().antMatchers("/register").permitAll()
+                .and().authorizeRequests().antMatchers("/log").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/**").hasRole("USER")
+                .authorizeRequests().antMatchers("/home").hasRole("USER")
                 .and()
-                .formLogin().loginPage("/log")
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().exceptionHandling().accessDeniedPage("/denied-access");
