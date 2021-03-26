@@ -3,10 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.AppUser;
 import com.example.demo.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -27,6 +24,16 @@ public class LoginController {
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
-        return new ModelAndView("users/register");
+        return new ModelAndView("users/register", "user", new AppUser());
+    }
+
+    @PostMapping("/register")
+    public AppUser register(@ModelAttribute("user") AppUser appUser) {
+        return appUserService.add(appUser);
+    }
+
+    @GetMapping("/current-user")
+    public AppUser appUser() {
+        return appUserService.getCurrentUser();
     }
 }
