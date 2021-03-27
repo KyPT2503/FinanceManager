@@ -19,6 +19,10 @@ public class MailAndCodeService implements IMailAndCodeService {
 
     @Override
     public MailAndCode add(MailAndCode mailAndCode) {
+        MailAndCode mailAndCode1 = mailAndCodeRepository.findFirstByEmail(mailAndCode.getEmail());
+        if (mailAndCode1 != null) {
+            mailAndCodeRepository.delete(mailAndCode1);
+        }
         return mailAndCodeRepository.save(mailAndCode);
     }
 
@@ -39,6 +43,7 @@ public class MailAndCodeService implements IMailAndCodeService {
 
     @Override
     public MailAndCode findByEmail(String email) {
+        System.out.println("tested");
         return mailAndCodeRepository.findFirstByEmail(email);
     }
 }
