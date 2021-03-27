@@ -22,10 +22,6 @@ public class UserController {
     @Autowired
     private IAppUserService appUserService;
 
-//    @ModelAttribute("user")
-//    public AppUser appUsers() {
-//        return appUserService.getCurrentUser();
-//    }
 
     @GetMapping
     public String homeUser() {

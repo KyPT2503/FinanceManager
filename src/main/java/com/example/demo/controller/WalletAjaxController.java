@@ -4,7 +4,6 @@ import com.example.demo.model.Wallet;
 import com.example.demo.service.user.IAppUserService;
 import com.example.demo.service.wallet.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,14 +19,14 @@ public class WalletAjaxController {
 
     @GetMapping("")
     public ModelAndView showIndex() {
-        return new ModelAndView("wallet/index", "wallet", walletService.findAll());
+        return new ModelAndView("wallet/index", "wallet", walletService.findByUser(appUserService.getCurrentUser()));
     }
 
     @PostMapping("/create")
     public Wallet createWallet(@RequestBody Wallet wallet) {
-        wallet.setAppUser(appUserService.getCurrentUser());
-       Wallet a = walletService.add(wallet);
-        return a;
+
+        return walletService.add(wallet);
+
     }
 
     @DeleteMapping("/remove/{id}")
@@ -40,13 +39,10 @@ public class WalletAjaxController {
     public Wallet getSingleWallet(@PathVariable("id") Wallet wallet) {
         return wallet;
     }
-    @GetMapping("/all-wallet")
-    public List<Wallet> getAllWallet() {
-        return walletService.findAll();
-    }
 
     @PutMapping("/update")
     public Wallet updateWallet(@RequestBody Wallet wallet) {
+        wallet.setAppUser(appUserService.getCurrentUser());
         walletService.update(wallet);
         return wallet;
     }

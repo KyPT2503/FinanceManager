@@ -1,5 +1,6 @@
 package com.example.demo.service.wallet;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Wallet;
 import com.example.demo.repository.IWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,11 @@ public class WalletService implements IWalletService {
     @Override
     public void deleteWallet(Long id) {
         iWalletRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Wallet> findByUser(AppUser appUser) {
+        return (List<Wallet>) iWalletRepository.findWalletByUser(appUser.getId());
     }
 
 
