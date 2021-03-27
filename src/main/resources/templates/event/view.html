@@ -15,9 +15,6 @@
 
 </head>
 <body>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        data-bs-whatever="@mdo">Create new event
-</button>
 
 <!--Modal create-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -45,15 +42,16 @@
                         <label class="col-form-label">Wallet:</label>
                         <select class="form-select" aria-label="Default select example" id="wallet-event">
                             <th:block th:each="p: ${listWallet}">
-                                <option th:value="${p.id}" th:text="${p.name}"></option>
-                                <input type="hidden" th:value="${p.appUser.id}" id="user-id-event">
+                                <option th:value="${p.getId()}" th:text="${p.name}"></option>
                             </th:block>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label">Action:</label>
                         <select class="form-select" aria-label="Default select example" id="action-event">
-                            <option value="1">Thu</option>
+                            <th:block th:each="c:${listAction}">
+                                <option th:value="${c.getId()}" th:text="${c.name}"></option>
+                            </th:block>
                             <option value="2">Chi</option>
                         </select>
                     </div>
@@ -71,6 +69,9 @@
     </div>
 </div>
 
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        data-bs-whatever="@mdo">Create new event
+</button>
 
 <!--Table show-->
 <div>
@@ -89,23 +90,26 @@
     </div>
 </div>
 <button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">STT</th>
-        <th scope="col">Name</th>
-        <th scope="col">Money</th>
-        <th scope="col">Date</th>
-        <th scope="col">Wallet</th>
-        <th scope="col">Action</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody id="table-event">
+<div>
+    <h1 style="text-align:center; font-style: oblique">List your event</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Name</th>
+            <th scope="col">Money</th>
+            <th scope="col">Date</th>
+            <th scope="col">Wallet</th>
+            <th scope="col">Action</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody id="table-event">
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 </body>
 <script>
     search();
@@ -138,7 +142,6 @@
         fd.append("date", document.getElementById("date-event").value);
         fd.append("wallet", document.getElementById("wallet-event").value);
         fd.append("groupAction", document.getElementById("action-event").value);
-        fd.append("user", document.getElementById("user-id-event").value);
         fd.append("note", document.getElementById("note-event").value);
         $.ajax({
             url: '/upload',

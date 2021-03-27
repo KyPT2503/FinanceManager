@@ -26,8 +26,8 @@ public class EventDataController {
     }
 
     @PostMapping("upload")
-    public ResponseEntity uploadEvent(@RequestParam String name, @RequestParam String money, @RequestParam String date, @RequestParam String wallet, @RequestParam String groupAction, @RequestParam String user, @RequestParam String note) {
-        eventService.save(new Event(name, note), date, groupAction, wallet, user, money);
+    public ResponseEntity uploadEvent(@RequestParam String name, @RequestParam String money, @RequestParam String date, @RequestParam String wallet, @RequestParam String groupAction, @RequestParam String note) {
+        eventService.save(new Event(name, note), date, groupAction, wallet,  money);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
