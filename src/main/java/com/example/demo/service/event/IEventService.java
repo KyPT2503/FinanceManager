@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface IEventService extends IGeneralService<Event> {
     List<Event> search(EventDTO event);
+    public Event save(Event event,String date,String action, String wallet, String user, String money);
 }

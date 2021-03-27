@@ -3,25 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 </head>
 <body>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        data-bs-whatever="@mdo">Create new event
+</button>
+
+<!--Modal create-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name-event" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name-event">
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-money" class="col-form-label">Money:</label>
+                        <input class="form-control" id="event-money" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Date:</label><br>
+                        <input type="date" id="date-event">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Wallet:</label>
+                        <select class="form-select" aria-label="Default select example" id="wallet-event">
+                            <th:block th:each="p: ${listWallet}">
+                                <option th:value="${p.id}" th:text="${p.name}"></option>
+                                <input type="hidden" th:value="${p.appUser.id}" id="user-id-event">
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Action:</label>
+                        <select class="form-select" aria-label="Default select example" id="action-event">
+                            <option value="1">Thu</option>
+                            <option value="2">Chi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name-event" class="col-form-label">Note:</label>
+                        <input type="text" class="form-control" id="note-event">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="update()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Table show-->
 <div>
     <div class="row p-3 mr-1 form-group">
         <div class="col-md-1"></div>
         <label for="name" class="col-md-2 col-form-label text-right">Name event</label>
         <input class="form-control col-md-3" id="name" name="name">
-        <input class="form-control col-md-3" id="start-date" type="date" >
-        <input class="form-control col-md-3" id="end-date" type="date" >
+        <input class="form-control col-md-3" id="start-date" type="date">
+        <input class="form-control col-md-3" id="end-date" type="date">
         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="group-action">
             <option value="">Option</option>
             <option value="1">Thu</option>
@@ -40,6 +98,8 @@
         <th scope="col">Date</th>
         <th scope="col">Wallet</th>
         <th scope="col">Action</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody id="table-event">
@@ -49,6 +109,7 @@
 </body>
 <script>
     search();
+
     function search() {
         const event = {
             name: document.getElementById("name").value,
@@ -62,21 +123,48 @@
                 timeout: 500,
                 type: 'POST',
                 contentType: 'application/json',
-                data:JSON.stringify(event),
+                data: JSON.stringify(event),
                 success: loadTables,
-                error:function (jqXhr, textStatus, errorMessage) { // error callback
+                error: function (jqXhr, textStatus, errorMessage) { // error callback
                     console.log(jqXhr)
                 }
+            });
+    }
+
+    function update() {
+        let fd = new FormData();
+        fd.append("name", document.getElementById("name-event").value);
+        fd.append("money", document.getElementById("event-money").value);
+        fd.append("date", document.getElementById("date-event").value);
+        fd.append("wallet", document.getElementById("wallet-event").value);
+        fd.append("groupAction", document.getElementById("action-event").value);
+        fd.append("user", document.getElementById("user-id-event").value);
+        fd.append("note", document.getElementById("note-event").value);
+        $.ajax({
+            url: '/upload',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                search();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr)
+            }
         });
+        console.log("update")
     }
 
     function loadTables(data) {
         const row = document.getElementById("table-event");
         let html = "";
         let index = 0;
-        data.forEach(val =>{
+        data.forEach(val => {
             index++;
-            html += `<tr><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td></tr>`
+            html += `<tr><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td>
+<td><button type="button" class="btn btn-warning">Edit</button></td><td><button type="button" class="btn btn-warning">Delete</button></td></tr>`
         })
         row.innerHTML = html;
     }
