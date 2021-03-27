@@ -31,6 +31,7 @@ public class UserController {
     public String homeUser() {
         return "/users/register";
     }
+
     @GetMapping("/create")
     public ModelAndView showCreateUser() {
         ModelAndView mav = new ModelAndView("/users/create");
@@ -46,11 +47,11 @@ public class UserController {
         return modelAndView;
     }
     @PostMapping("/balance/create")
-    public ModelAndView created(@ModelAttribute Balance balance) {
+    public String created(@ModelAttribute Balance balance) {
         balance.setAppUser(appUserService.getCurrentUser());
         balanceService.add(balance);
-        ModelAndView modelAndView = new ModelAndView("/users/register");
-        return modelAndView;
+//        ModelAndView modelAndView = new ModelAndView("/users/register");
+        return "/users/register";
     }
 
 }
