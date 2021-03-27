@@ -16,16 +16,16 @@ import java.util.List;
 public class AppUserService implements IAppUserService, UserDetailsService {
 
     @Autowired
-    private AppUserRepository repository;
+    private AppUserRepository appUserRepository;
 
     @Override
     public List<AppUser> findAll() {
-        return repository.findAll();
+        return appUserRepository.findAll();
     }
 
     @Override
     public AppUser add(AppUser appUser) {
-        return repository.save(appUser);
+        return appUserRepository.save(appUser);
     }
 
     @Override
@@ -33,23 +33,23 @@ public class AppUserService implements IAppUserService, UserDetailsService {
         if (appUser == null){
             return false;
         }
-        repository.delete(appUser);
+        appUserRepository.delete(appUser);
         return true;
     }
 
     @Override
     public AppUser update(AppUser appUser) {
-        return repository.save(appUser);
+        return appUserRepository.save(appUser);
     }
 
     @Override
     public AppUser findById(Long id) {
-        return repository.getOne(id);
+        return appUserRepository.getOne(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser appUser = repository.findByEmail(email);
+        AppUser appUser = appUserRepository.findByEmail(email);
         if (appUser == null ) {
             throw new UsernameNotFoundException(email);
         }
@@ -59,7 +59,7 @@ public class AppUserService implements IAppUserService, UserDetailsService {
 
     @Override
     public AppUser getUserByUserName(String email) {
-        return repository.findByEmail(email);
+        return appUserRepository.findByEmail(email);
     }
 
     @Override
