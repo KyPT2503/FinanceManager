@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../static/bootstrap/style-qui.css">
+    <script src="../static/qui.js"></script>
 
 
 </head>
@@ -33,7 +34,10 @@
                 </li>
                 <li class="nav-item">
                     <div sec:authorize="isAuthenticated()">
-                        <a href="/user/balance/create" class="nav-link">Limit</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            Limit
+                        </button>
+<!--                        <a href="/user/balance/create" id="createLimit" class="nav-link">Limit</a>-->
                     </div>
                 </li>
                 <li class="nav-item">
@@ -48,10 +52,29 @@
     </div>
 
 </nav>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-<div sec:authorize="isAuthenticated()">
-    <span sec:authentication="principal.username"></span>
-    <div><a th:href="@{/user/balance/create}">Đặt giới hạn chi tiêu</a></div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
 </div>
+
 </body>
 </html>
