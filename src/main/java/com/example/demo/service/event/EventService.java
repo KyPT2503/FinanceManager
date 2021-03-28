@@ -41,7 +41,8 @@ public class EventService implements IEventService {
 
     @Override
     public boolean remove(Event event) {
-        return false;
+        eventRepository.delete(event);
+        return true;
     }
 
     @Override
@@ -72,5 +73,10 @@ public class EventService implements IEventService {
             e.printStackTrace();
         }
         return eventRepository.save(event);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        eventRepository.deleteById(id);
     }
 }

@@ -167,9 +167,28 @@
         data.forEach(val => {
             index++;
             html += `<tr><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td>
-<td><button type="button" class="btn btn-warning">Edit</button></td><td><button type="button" class="btn btn-warning">Delete</button></td></tr>`
+<td><button type="button" class="btn btn-warning">Edit</button></td><td><button type="button" class="btn btn-warning" onclick="remove('${val.id}')">Delete</button></td></tr>`
         })
         row.innerHTML = html;
+    }
+
+    function remove(id) {
+        const data = new FormData();
+        data.append("id",id);
+        $.ajax({
+            url: 'delete',
+            data: data,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                search();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr)
+            }
+        })
     }
 </script>
 </html>

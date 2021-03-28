@@ -9,4 +9,5 @@ import java.util.List;
 public interface IEventService extends IGeneralService<Event> {
     List<Event> search(EventDTO event);
     Event save(Event event,String date,String action, String wallet, String money);
+    void deleteById(Long id);
 }

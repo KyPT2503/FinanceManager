@@ -30,4 +30,9 @@ public class EventDataController {
         eventService.save(new Event(name, note), date, groupAction, wallet,  money);
         return new ResponseEntity(HttpStatus.OK);
     }
+    @PostMapping("delete")
+    public ResponseEntity deleteEvent(@RequestParam String id){
+        eventService.deleteById(Long.parseLong(id));
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
