@@ -31,7 +31,7 @@ public class EventService implements IEventService {
 
     @Override
     public List<Event> findAll() {
-        return null;
+        return eventRepository.findAll();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class EventService implements IEventService {
 
     @Override
     public Event findById(Long id) {
-        return null;
+        return eventRepository.getOne(id);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public Event save(Event event,String date,String action, String wallet, String money) {
+    public Event save(Event event, String date, String action, String wallet, String money) {
         try {
             event.setWallet(entityManager.find(Wallet.class, Long.parseLong(wallet)));
             event.setMoney(Double.parseDouble(money));
@@ -78,5 +78,13 @@ public class EventService implements IEventService {
     @Override
     public void deleteById(Long id) {
         eventRepository.deleteById(id);
+    }
+
+    @Override
+    public Event findEventByStringId(String id,String name,String note) {
+        Event event = findById(Long.parseLong(id));
+        event.setName(name);
+        event.setNote(note);
+        return event;
     }
 }

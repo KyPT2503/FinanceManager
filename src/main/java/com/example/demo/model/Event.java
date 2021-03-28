@@ -28,14 +28,6 @@ public class Event {
         this.note = note;
     }
 
-    public Event(AppUser user, Wallet wallet, GroupAction groupAction, String name, double money, String note) {
-        this.user = user;
-        this.wallet = wallet;
-        this.groupAction = groupAction;
-        this.name = name;
-        this.money = money;
-        this.note = note;
-    }
 
     public Long getId() {
         return id;

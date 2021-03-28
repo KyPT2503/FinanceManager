@@ -15,13 +15,68 @@
 
 </head>
 <body>
+<!--Modal edit-->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabels" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabels">Edit event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="hidden" id="id_event">
+                        <label for="name-event" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name_event">
+                        <div id="name_message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-money" class="col-form-label">Money:</label>
+                        <input class="form-control" id="event_money" type="text">
+                        <div id="money_message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Date:</label><br>
+                        <input type="date" id="date_event">
+                        <div id="date_message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Wallet:</label>
+                        <select class="form-select" aria-label="Default select example" id="wallet_event">
+                            <th:block th:each="p: ${listWallet}">
+                                <option th:value="${p.getId()}" th:text="${p.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Action:</label>
+                        <select class="form-select" aria-label="Default select example" id="action_event">
+                            <th:block th:each="c:${listAction}">
+                                <option th:value="${c.getId()}" th:text="${c.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name-event" class="col-form-label">Note:</label>
+                        <input type="text" class="form-control" id="note_event">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="edit()">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--Modal create-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload event</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create event</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -29,14 +84,17 @@
                     <div class="mb-3">
                         <label for="name-event" class="col-form-label">Name:</label>
                         <input type="text" class="form-control" id="name-event">
+                        <div id="name-message"></div>
                     </div>
                     <div class="mb-3">
                         <label for="event-money" class="col-form-label">Money:</label>
                         <input class="form-control" id="event-money" type="text">
+                        <div id="money-message"></div>
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label">Date:</label><br>
                         <input type="date" id="date-event">
+                        <div id="date-message"></div>
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label">Wallet:</label>
@@ -52,7 +110,6 @@
                             <th:block th:each="c:${listAction}">
                                 <option th:value="${c.getId()}" th:text="${c.name}"></option>
                             </th:block>
-                            <option value="2">Chi</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -63,14 +120,14 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="update()">Upload</button>
+                <button type="button" class="btn btn-primary" onclick="update()">Create</button>
             </div>
         </div>
     </div>
 </div>
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        data-bs-whatever="@mdo">Create new event
+        data-bs-whatever="@mdo" onclick="clears()">Create new event
 </button>
 
 <!--Table show-->
@@ -82,19 +139,21 @@
         <input class="form-control col-md-3" id="start-date" type="date">
         <input class="form-control col-md-3" id="end-date" type="date">
         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="group-action">
-            <option value="">Option</option>
-            <option value="1">Thu</option>
-            <option value="2">Chi</option>
+            <option value="">All option action</option>
+            <th:block th:each="c:${listAction}">
+                <option th:value="${c.getId()}" th:text="${c.name}"></option>
+            </th:block>
         </select>
         <div class="col-md-1"></div>
     </div>
 </div>
 <button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>
 <div>
-    <h1 style="text-align:center; font-style: oblique">List your event</h1>
+    <h1 style="text-align:center; font-style: oblique">List your events</h1>
     <table class="table">
         <thead>
         <tr>
+            <th scope="col"></th>
             <th scope="col">STT</th>
             <th scope="col">Name</th>
             <th scope="col">Money</th>
@@ -129,13 +188,63 @@
                 contentType: 'application/json',
                 data: JSON.stringify(event),
                 success: loadTables,
-                error: function (jqXhr, textStatus, errorMessage) { // error callback
+                error: function (jqXhr, textStatus, errorMessage) {
                     console.log(jqXhr)
                 }
             });
     }
 
+    function edit() {
+        if(document.getElementById("name_event").value === ""){
+            document.getElementById("name_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
+            return;
+        }
+        if(document.getElementById("event_money").value === ""){
+            document.getElementById("money_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập số tiền</p>`;
+            return;
+        }
+        if(document.getElementById("date_event").value === ""){
+            document.getElementById("date_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập ngày/tháng/năm</p>`;
+            return;
+        }
+        let fd = new FormData();
+        fd.append("id", document.getElementById("id_event").value);
+        fd.append("name", document.getElementById("name_event").value);
+        fd.append("money", document.getElementById("event_money").value);
+        fd.append("date", document.getElementById("date_event").value);
+        fd.append("wallet", document.getElementById("wallet_event").value);
+        fd.append("groupAction", document.getElementById("action_event").value);
+        fd.append("note", document.getElementById("note_event").value);
+        $.ajax({
+            url: '/edit',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                search();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr)
+            }
+        });
+        console.log("edit")
+    }
+
     function update() {
+        if(document.getElementById("name-event").value === ""){
+            document.getElementById("name-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
+            return;
+        }
+        if(document.getElementById("event-money").value === ""){
+            document.getElementById("money-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập số tiền</p>`;
+            return;
+        }
+        if(document.getElementById("date-event").value === ""){
+            document.getElementById("date-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập ngày/tháng/năm</p>`;
+            return;
+        }
         let fd = new FormData();
         fd.append("name", document.getElementById("name-event").value);
         fd.append("money", document.getElementById("event-money").value);
@@ -166,8 +275,9 @@
         let index = 0;
         data.forEach(val => {
             index++;
-            html += `<tr><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td>
-<td><button type="button" class="btn btn-warning">Edit</button></td><td><button type="button" class="btn btn-warning" onclick="remove('${val.id}')">Delete</button></td></tr>`
+            html += `<tr><td><input type="hidden" value="${val.id}"></td><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td>
+<td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setValue('${val.id}','${val.name}','${val.money}','${val.date}','${val.wallet.id}','${val.groupAction.id}','${val.note}')">Edit</button></td>
+<td><button type="button" class="btn btn-warning" onclick="remove('${val.id}')">Delete</button></td></tr>`
         })
         row.innerHTML = html;
     }
@@ -176,7 +286,7 @@
         const data = new FormData();
         data.append("id",id);
         $.ajax({
-            url: 'delete',
+            url: '/delete',
             data: data,
             processData: false,
             contentType: false,
@@ -189,6 +299,23 @@
                 console.log(jqXhr)
             }
         })
+    }
+
+    function clears(){
+        document.getElementById("name-event").value = "";
+        document.getElementById("event-money").value = "";
+        document.getElementById("date-event").value = "";
+        document.getElementById("note-event").value = "";
+    }
+
+    function setValue(id,name,money,date,wallet,action,note){
+        document.getElementById("name_event").value = name;
+        document.getElementById("id_event").value = id;
+        document.getElementById("event_money").value = money;
+        document.getElementById("date_event").value = date;
+        document.getElementById("wallet_event").value = wallet;
+        document.getElementById("action_event").value = action;
+        document.getElementById("note_event").value = note;
     }
 </script>
 </html>
