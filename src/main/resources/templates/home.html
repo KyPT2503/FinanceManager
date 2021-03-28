@@ -58,18 +58,35 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
+                <h4 class="modal-title">Your Limit</h4>
                 <button type="button" class="close" data-dismiss="modal">×</button>
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body">
-                Modal body..
+            <div class="modal-body form-group" >
+                <table>
+                    <tr>
+                        <td >Ngày bắt đầu :</td>
+                        <td><div><input type="date" id="startDate" ></div></td>
+                    </tr>
+                    <tr>
+                        <td>Ngày kết thúc :</td>
+                        <td><div><input type="date" id="endDate" ></div></td>
+                    </tr>
+                    <tr>
+                        <td>Số tiền :</td>
+                        <td><div><input type="number" id="money" placeholder="Enter Money"></div></td>
+                    </tr>
+                </table>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success"  onclick="createLimit()">Create</button>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
             </div>
 
         </div>
