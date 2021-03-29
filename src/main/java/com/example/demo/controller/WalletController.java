@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EventDTO;
+import com.example.demo.model.AppUser;
+import com.example.demo.model.Event;
 import com.example.demo.model.Wallet;
 import com.example.demo.service.user.IAppUserService;
 import com.example.demo.service.wallet.IWalletService;
@@ -16,6 +19,11 @@ public class WalletController {
     private IWalletService walletService;
     @Autowired
     private IAppUserService appUserService;
+
+    @ModelAttribute("user")
+    public AppUser getCurrentUser() {
+        return appUserService.getCurrentUser();
+    }
 
     @GetMapping("")
     public ModelAndView showIndex() {
@@ -46,4 +54,5 @@ public class WalletController {
         walletService.update(wallet);
         return wallet;
     }
+
 }
