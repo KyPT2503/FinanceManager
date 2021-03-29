@@ -35,23 +35,26 @@ public class ReportController {
         return appUserService.getCurrentUser();
     }
 
+
     @GetMapping("/report")
     public ModelAndView getReportPage() {
-        ModelAndView modelAndView = new ModelAndView("/report/reportPage5");
         YearMonth yearMonth = YearMonth.now();
-        Date start = Date.valueOf(yearMonth.atDay(1));
-        Date end = Date.valueOf(yearMonth.atEndOfMonth());
+        Date start_ = Date.valueOf(yearMonth.atDay(1));
+        Date end_ = Date.valueOf(yearMonth.atEndOfMonth());
+        ModelAndView modelAndView = new ModelAndView("/report/reportPage5");
         Map<String, Double> thu = new HashMap<>();
         Map<String, Double> chi = new HashMap<>();
-        Map<Date, Map<Double, Double>> thuchitime = new HashMap<>();
         Map<Double, Double> thuchi = new HashMap<>();
+        Map<Date, Double[]> thuchitime = new TreeMap<>();
         ArrayList<Date> date = new ArrayList();
-        String time = start.toString() + " / " + end.toString();
+        String time = start_.toString() + " / " + end_.toString();
         Double tongthu = 0.0;
         Double tongchi = 0.0;
+        List<Double> got = new ArrayList<>();
+        List<Double> lost = new ArrayList<>();
 
 
-        for (Event e : eventService.findAllByDateBetweenAndUser(start, end, getCurrentUser())) {
+        for (Event e : eventService.findAllByDateBetweenAndUser(start_, end_, getCurrentUser())) {
             if (e.getGroupAction().getId() == 1) {
                 thu.put(e.getName(), e.getMoney());
                 tongthu += e.getMoney();
@@ -60,20 +63,22 @@ public class ReportController {
                 tongchi += e.getMoney();
             }
         }
-        for (Date d = start; d.before(end); d.setDate(d.getDate() + 1)) {
+        for (; start_.before(end_); start_.setDate(start_.getDate() + 1)) {
             Double totalThuInDay = 0.0;
             Double totalChiInDay = 0.0;
-            for (Event e : eventService.findAllByDateAndUser(d, getCurrentUser())) {
+            for (Event e : eventService.findAllByDateAndUser(start_, getCurrentUser())) {
                 if (e.getGroupAction().getId() == 1) {
                     totalThuInDay += e.getMoney();
                 } else if (e.getGroupAction().getId() == 2) {
                     totalChiInDay += e.getMoney();
                 }
-                thuchi.put(totalThuInDay, totalChiInDay);
-                Date date1 = (Date) d.clone();
-                thuchitime.put(date1, thuchi);
             }
+            got.add(totalThuInDay);
+            lost.add(totalChiInDay);
+            thuchi.put(totalThuInDay, totalChiInDay);
+            thuchitime.put(Date.valueOf(start_.toString()), new Double[]{totalThuInDay, totalChiInDay});
         }
+
 
         modelAndView.addObject("tongthu", tongthu);
         modelAndView.addObject("tongchi", tongchi);
@@ -83,20 +88,27 @@ public class ReportController {
         modelAndView.addObject("date", date);
         modelAndView.addObject("thuchitime", thuchitime);
         modelAndView.addObject("thuchi", thuchi);
+        modelAndView.addObject("got",got);
+        modelAndView.addObject("lost",lost);
         return modelAndView;
     }
 
     @PostMapping("/report")
-    public ModelAndView searchEvent(@RequestParam Date start, Date end) {
+    public ModelAndView searchEvent(@RequestParam Date start, @RequestParam Date end) {
+        Date start_ = Date.valueOf(start.toString());
+        Date end_ = Date.valueOf((end).toString());
+        end_.setDate(end_.getDate() + 1);
         ModelAndView modelAndView = new ModelAndView("/report/reportPage5");
         Map<String, Double> thu = new HashMap<>();
         Map<String, Double> chi = new HashMap<>();
-        Map<Date, Map<Double, Double>> thuchitime = new HashMap<>();
         Map<Double, Double> thuchi = new HashMap<>();
+        Map<Date, Double[]> thuchitime = new TreeMap<>();
         ArrayList<Date> date = new ArrayList();
         String time = start.toString() + " / " + end.toString();
         Double tongthu = 0.0;
         Double tongchi = 0.0;
+        List<Double> got = new ArrayList<>();
+        List<Double> lost = new ArrayList<>();
 
 
         for (Event e : eventService.findAllByDateBetweenAndUser(start, end, getCurrentUser())) {
@@ -108,20 +120,22 @@ public class ReportController {
                 tongchi += e.getMoney();
             }
         }
-        for (Date d = start; d.before(end); d.setDate(d.getDate() + 1)) {
+        for (; start_.before(end_); start_.setDate(start_.getDate() + 1)) {
             Double totalThuInDay = 0.0;
             Double totalChiInDay = 0.0;
-            for (Event e : eventService.findAllByDateAndUser(d, getCurrentUser())) {
+            for (Event e : eventService.findAllByDateAndUser(start_, getCurrentUser())) {
                 if (e.getGroupAction().getId() == 1) {
                     totalThuInDay += e.getMoney();
                 } else if (e.getGroupAction().getId() == 2) {
                     totalChiInDay += e.getMoney();
                 }
-                thuchi.put(totalThuInDay, totalChiInDay);
-                Date date1 = (Date) d.clone();
-                thuchitime.put(date1, thuchi);
             }
+            got.add(totalThuInDay);
+            lost.add(totalChiInDay);
+            thuchi.put(totalThuInDay, totalChiInDay);
+            thuchitime.put(Date.valueOf(start_.toString()), new Double[]{totalThuInDay, totalChiInDay});
         }
+
 
         modelAndView.addObject("tongthu", tongthu);
         modelAndView.addObject("tongchi", tongchi);
@@ -131,6 +145,8 @@ public class ReportController {
         modelAndView.addObject("date", date);
         modelAndView.addObject("thuchitime", thuchitime);
         modelAndView.addObject("thuchi", thuchi);
+        modelAndView.addObject("got",got);
+        modelAndView.addObject("lost",lost);
         return modelAndView;
     }
 }
