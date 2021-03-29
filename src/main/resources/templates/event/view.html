@@ -16,6 +16,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .for-alert {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
 <!--Modal edit-->
@@ -231,6 +238,9 @@
         </div>
     </div>
 </div>
+<div class="for-alert" id="for-alert">
+    <!--for alert-->
+</div>
 </body>
 <script>
     search();
@@ -320,7 +330,6 @@
     }
 
     function update() {
-        checkBalance();
         if (document.getElementById("name-event").value === "") {
             document.getElementById("name-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
             return;
@@ -349,13 +358,12 @@
             success: function (data) {
                 console.log(data);
                 search();
+                checkBalance();
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr)
             }
         });
-
-        console.log("update")
     }
 
     function loadTables(data) {
@@ -420,6 +428,10 @@
             success: function (messages) {
                 console.log("Success check!!!");
                 console.log(messages);
+                jQuery.each(messages, function (index, message) {
+                    let alert = `<div class="alert alert-danger alert-dismissible"> <button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Alert!</strong>${message}</div>`;
+                    $('#for-alert').append(alert);
+                })
             }
         })
     }

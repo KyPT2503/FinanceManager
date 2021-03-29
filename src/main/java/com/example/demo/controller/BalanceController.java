@@ -51,11 +51,13 @@ public class BalanceController {
         for (Balance balance : balances) {
             Date start = balance.getStartDay();
             Date end = balance.getEndDay();
-            Double total = 0d;
-            total = eventService.getTotalByUserAndTimeRange(getCurrentUser(), start, end, groupAction.findById(2L));
+            Double total = eventService.getTotalByUserAndTimeRange(getCurrentUser(), start, end, groupAction.findById(2L));
+            if (total == null) {
+                total = 0d;
+            }
             System.out.println("total = " + total);
             if (total > balance.getMoney()) {
-                messages.add("Out of limit! Date: " + balance.getStartDay().toString() + "-" + balance.getEndDay().toString());
+                messages.add("Out of limit! Date: " + balance.getStartDay().toString() + "-" + balance.getEndDay().toString() + ",out: " + (total - balance.getMoney() + "$."));
             }
         }
         return messages;
