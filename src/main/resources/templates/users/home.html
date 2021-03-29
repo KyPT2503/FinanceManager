@@ -43,7 +43,7 @@
                         <a class="nav-link" href="/report">Chart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Balance</a>
+                        <a class="nav-link" href="/balance">Balance</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Statistics</a>
@@ -54,10 +54,107 @@
                 </ul>
             </nav>
         </div>
-        <div class="col-lg-10" style="background-color: cornflowerblue;height:100vh;">
-            //todo : partner
+        <div class="col-lg-10 row" style="background-color: cornflowerblue;height:100vh;">
+            <div class="col-lg-3">
+                <form th:action="@{/share/user-search}" method="post" id="search-user">
+                    <label>Email:
+                        <input type="text" class="form-control" name="email" placeholder="Search ..." id="user-email">
+                    </label>
+                    <button id="button-user-search" type="button" class="btn btn-success">Search</button>
+                </form>
+                <br>
+                <table id="for-user-searched">
+                    <!--for user searched-->
+                </table>
+            </div>
+            <div class="col-lg-4" style="height:100%;background-color: #7abaff">
+                <h1>You shared</h1>
+                <table id="shared-table"></table>
+            </div>
+            <div class="col-lg-3">
+                <h1>Shared to you
+                    <button onclick="showShareToYou()" class="btn btn-primary">Show</button>
+                </h1>
+                <table id="shared-to-you-table"></table>
+            </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#button-user-search", function () {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json', 'Content-Type': 'application/json'
+                },
+                type: "GET",
+                url: "/share/user-search/" + $('#user-email').val(),
+                success: function (users) {
+                    let userRows = ``;
+                    jQuery.each(users, function (index, user) {
+                        userRows += `<tr><th>${user.email}</th><th><button class="btn btn-success share-button" id="${user.id}">Share</button></th></tr>`;
+                    });
+                    $('#for-user-searched').html(userRows);
+                }
+            })
+        });
+        $(document).on("click", ".share-button", function () {
+            let button = $(this);
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json', 'Content-Type': 'application/json'
+                },
+                type: "POST",
+                url: "/share/" + button.attr("id"),
+                success: function (custom) {
+                    if (custom.id == button.attr("id"))
+                        $('#shared-table').append(`<tr><th>${custom.name}</th><th><button class="unshare-button btn btn-danger" id="${custom.id}">UnShare</button></th></tr>`);
+                }
+            })
+        });
+        showShared();
+        showShareToYou();
+        $(document).on("click", ".unshare-button", function () {
+            let button = $(this);
+            $.ajax({
+                type: "DELETE",
+                url: "/share/delete/" + button.attr("id"),
+                success: function () {
+                    button.parent().parent().remove();
+                }
+            })
+        })
+    });
+
+    function showShared() {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "/share/shared",
+            success: function (customs) {
+                jQuery.each(customs, function (index, custom) {
+                    $('#shared-table').append(`<tr><th>${custom.name}</th><th><button class="unshare-button btn btn-danger" id="${custom.id}">UnShare</button></th></tr>`);
+                });
+            }
+        })
+    }
+
+    function showShareToYou() {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "/share/got-shared",
+            success: function (owners) {
+                jQuery.each(owners, function (index, owner) {
+                    $('#shared-to-you-table').append(`<tr><th>${owner.name}</th><th><button class="got-shared btn btn-primary"><a href="/share/all-event/${owner.id}" target="_blank" style="color: white">Watch</a></button></th></tr>`);
+                });
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -114,6 +114,11 @@ public class EventService implements IEventService {
         return eventRepository.getTotal(appUser, start, end, groupAction);
     }
 
+    @Override
+    public List<Event> findByUser(AppUser appuser) {
+        return eventRepository.findByUser(appuser);
+    }
+
     public List<Wallet> getListWallet() {
         return eventRepository.getWalletByUser();
     }

@@ -31,6 +31,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/wallet").hasRole("USER")
                 .and()
+                .authorizeRequests().antMatchers("/share/**").hasRole("USER")
+                .and()
                 .authorizeRequests().antMatchers("/event").hasRole("USER")
                 .and()
                 .authorizeRequests().antMatchers("/report").hasRole("USER")

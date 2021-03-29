@@ -30,7 +30,7 @@ public class AppUserService implements IAppUserService, UserDetailsService {
 
     @Override
     public boolean remove(AppUser appUser) {
-        if (appUser == null){
+        if (appUser == null) {
             return false;
         }
         appUserRepository.delete(appUser);
@@ -50,10 +50,10 @@ public class AppUserService implements IAppUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser appUser = appUserRepository.findByEmail(email);
-        if (appUser == null ) {
+        if (appUser == null) {
             throw new UsernameNotFoundException(email);
         }
-        System.out.println("đã nhận UserDetail từ "+email);
+        System.out.println("đã nhận UserDetail từ " + email);
         return AppUserPrinciple.build(appUser);
     }
 
@@ -63,13 +63,18 @@ public class AppUserService implements IAppUserService, UserDetailsService {
     }
 
     @Override
+    public List<AppUser> findByEmail(String email) {
+        return appUserRepository.findByEmailContaining(email);
+    }
+
+    @Override
     public AppUser getCurrentUser() {
         AppUser appUser;
         String email;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof  UserDetails) {
-            email = ((UserDetails)principal).getUsername();
-        }else {
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
             email = principal.toString();
         }
         appUser = this.getUserByUserName(email);

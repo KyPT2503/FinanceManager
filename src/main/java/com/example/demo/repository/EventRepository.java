@@ -18,4 +18,6 @@ public interface EventRepository extends JpaRepository<Event, Long>, EventCustom
 
     @Query(value = "select sum(e.money) from Event e where e.user =:appUser and e.date between :start and :end and e.groupAction=:groupAction")
     Double getTotal(AppUser appUser, Date start, Date end, GroupAction groupAction);
+
+    List<Event> findByUser(AppUser appUser);
 }
