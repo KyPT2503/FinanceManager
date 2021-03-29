@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+
+        tr:hover {background-color:#f5f5f5;}
+        button:hover, button:active {
+            background-color: green;
+            color: white;
+        }
+        table {
+            width: 50%;
+            height: 60px;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -53,31 +65,33 @@
             </nav>
         </div>
         <div class="col-lg-10" style="background-color: cornflowerblue;height:100vh;">
-            <form id="submit">
+            <form id="submit" class="col-xl-3">
                 <input type="hidden" id="id" value="0">
-                <label for="name">Name:</label><input type="text" id="name">
-                <label for="name">Money:</label><input type="text" id="money">
+                <label for="name">Name:</label><input type="text" id="name" class="form-control">
+                <label for="name">Money:</label><input type="text" id="money" class="form-control">
                 <input type="submit" value="Save" style="background-color: yellow">
             </form>
 
 
 <!--            <button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>-->
 
-            <table id="table">
+            <table id="table" style="border-radius: 25px; padding: 8px; border: 2px solid #FF1493; word-wrap: break-word;">
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Money</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <tr th:each="w:${wallet}">
                     <td th:text="${w.id}"></td>
                     <td th:text="${w.name}"></td>
                     <td th:text="${w.money}"></td>
                     <td>
-                        <button th:id="${w.id}" class="update" style="color: blue">Update</button>
+                        <button th:id="${w.id}" class="update btn btn-success" >Update</button>
                     </td>
                     <td>
-                        <button th:id="${w.id}" class="remove" style="color: red">Remove</button>
+                        <button th:id="${w.id}" class="remove btn btn-danger" >Remove</button>
                     </td>
                 </tr>
             </table>
@@ -110,8 +124,8 @@
                     newTr += "<td>" + walletZZ.id + "</td>";
                     newTr += "<td>" + walletZZ.name + "</td>";
                     newTr += "<td>" + walletZZ.money + "</td>";
-                    newTr += "<td><button onclick='prepareUpdate(this)' id='" + walletZZ.id + "' class='update'>Update</button></td>";
-                    newTr += "<td><button class='remove' id='" + walletZZ.id + "'>Remove</button></td>";
+                    newTr += "<td><button onclick='prepareUpdate(this)' id='" + walletZZ.id + "' class='update' class=\"update btn btn-success\" >Update</button></td>";
+                    newTr += "<td><button class='remove' id='" + walletZZ.id + " ' class=\"remove btn btn-danger\" >Remove</button></td>";
                     newTr += "</tr>";
                     $('#table').append(newTr);
 
@@ -202,8 +216,9 @@
                 let newRow = "<td>" + wallet.id + "</td>";
                 newRow += "<td>" + wallet.name + "</td>";
                 newRow += "<td>" + wallet.money + "</td>";
-                newRow += "<td><button id='" + wallet.id + "' class='update'>Update</button></td>";
-                newRow += "<td><button id='" + wallet.id + "' class='remove'>Remove</button></td>";
+                newRow += "<td><button id='" + wallet.id + "'  class=\"update btn btn-success\"" +
+                    ">Update</button></td>";
+                newRow += "<td><button id='" + wallet.id + "'  class=\"remove btn btn-danger\">Remove</button></td>";
                 $(wallet.id).parent().parent().innerHTML = newRow;
             }
         })
