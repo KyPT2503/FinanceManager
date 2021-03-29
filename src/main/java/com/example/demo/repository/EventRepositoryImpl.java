@@ -46,4 +46,12 @@ public class EventRepositoryImpl implements EventCustomRepository {
         return entityManager.createQuery(sql.toString()).getResultList();
     }
 
+    @Override
+    public List<Event> getListByUser() {
+        AppUser appUser = appUserService.getCurrentUser();
+        String sql = "from Event where user_id = " + appUser.getId();
+        return entityManager.createQuery(sql).getResultList();
+    }
+
+
 }

@@ -102,6 +102,10 @@ public class EventService implements IEventService {
        return eventRepository.getWalletByUser();
     }
 
+    public List<Event> getListEvents(){
+        return eventRepository.getListByUser();
+    }
+
     public ByteArrayInputStream writeToFileExcel() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -119,7 +123,7 @@ public class EventService implements IEventService {
             firstCell3.setCellValue("Wallet event");
             Cell firstCell4 = firstRow.createCell(4);
             firstCell4.setCellValue("Action event");
-            List<Event> listEvents = findAll();
+            List<Event> listEvents = getListEvents();
             for (Event event : listEvents) {
                 Row row = sheet.createRow(rowNum++);
                 Cell cell1 = row.createCell(0);
