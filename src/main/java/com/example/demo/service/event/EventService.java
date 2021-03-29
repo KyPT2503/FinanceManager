@@ -96,6 +96,51 @@ public class EventService implements IEventService {
         return event;
     }
 
+    @Override
+    public List<Event> findAllByDateBetween(Date start, Date end) {
+        return findAllByDateBetweenAndUser(start, end,);
+    }
+
+    public ByteArrayInputStream writeToFileExcel() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Event");
+            int rowNum = 0;
+            Row firstRow = sheet.createRow(rowNum++);
+            Cell firstCell = firstRow.createCell(0);
+            firstCell.setCellValue("Name event");
+            Cell firstCell1 = firstRow.createCell(1);
+            firstCell1.setCellValue("Money event");
+            Cell firstCell2 = firstRow.createCell(2);
+            firstCell2.setCellValue("Date event");
+            Cell firstCell3 = firstRow.createCell(3);
+            firstCell3.setCellValue("Wallet event");
+            Cell firstCell4 = firstRow.createCell(4);
+            firstCell4.setCellValue("Action event");
+            List<Event> listEvents = findAll();
+            for (Event event : listEvents) {
+                Row row = sheet.createRow(rowNum++);
+                Cell cell1 = row.createCell(0);
+                cell1.setCellValue(event.getName());
+                Cell cell2 = row.createCell(1);
+                cell2.setCellValue(event.getMoney());
+                Cell cell3 = row.createCell(2);
+                cell3.setCellValue(event.getDate().toString());
+                Cell cell4 = row.createCell(3);
+                cell4.setCellValue(event.getWallet().getName());
+                Cell cell5 = row.createCell(4);
+                cell5.setCellValue(event.getGroupAction().getName());
+            }
+            workbook.write(out);
+            workbook.close();
+            return new ByteArrayInputStream(out.toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ByteArrayInputStream writeToFileExcel() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -146,4 +191,5 @@ public class EventService implements IEventService {
         return eventRepository.findAllByDateAndUser(date, appUser);
     }
 }
+
 
