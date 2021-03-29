@@ -1,5 +1,6 @@
 package com.example.demo.service.event;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Event;
 import com.example.demo.dto.EventDTO;
 import com.example.demo.service.IGeneralService;
@@ -14,4 +15,8 @@ public interface IEventService extends IGeneralService<Event> {
     Event findEventByStringId(String id,String name,String note);
 
     List<Event> findAllByDateBetween(Date start, Date end);
+    List<Event> findAllByDateBetweenAndUser(Date start, Date end, AppUser appUser);
+    List<Event> findAllByDateAndUser(Date date, AppUser appUser);
+
+
 }

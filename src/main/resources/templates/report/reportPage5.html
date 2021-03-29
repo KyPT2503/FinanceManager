@@ -33,16 +33,28 @@
 </div>
 <table>
     <tr>
-        <td>Thu</td>
-        <td>Chi</td>
+        <td colspan="2" style="text-align: center"><h1 th:text="${time}"></h1></td>
+    </tr>
+    <tr>
+        <td>Khoan Thu</td>
+        <td>Khoan Chi</td>
+    </tr>
+    <tr>
+        <td th:text="${tongthu}"></td>
+        <td th:text="${tongchi}"></td>
     </tr>
     <tr>
         <td><div id="chart1"></div></td>
         <td><div id="chart2"></div></td>
     </tr>
+    <tr>
+        <td colspan="2"><div id="chart"></div></td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
 </table>
-<div id="chart">
-</div>
+
 <script th:inline="javascript">
     var options = {
         series: [[${thu.values()}]],
@@ -91,10 +103,10 @@
     var options = {
         series: [{
             name: 'Thu',
-            data: [[${thu.values()}]]
+            data: [[${thuchi.values()}]]
         }, {
             name: 'Chi',
-            data: [[${chi.values()}]]
+            data: [[${thuchi.keySet()}]]
         }],
         chart: {
             type: 'bar',
@@ -116,7 +128,7 @@
             colors: ['transparent']
         },
         xaxis: {
-            categories: [[${date}]],
+            categories: [[${thuchitime.keySet()}]],
         },
         yaxis: {
             title: {
