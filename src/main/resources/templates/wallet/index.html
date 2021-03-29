@@ -28,7 +28,7 @@
             <button th:id="${w.id}" class="update">Update</button>
         </td>
         <td>
-            <button th:id="${w.id}" class="remove">Remove</button>
+            <button th:id="${w.id}" class="remove" onclick="return confirm('You may want to delete ?');">Delete</button>
         </td>
     </tr>
 </table>
