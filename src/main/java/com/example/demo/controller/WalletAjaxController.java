@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Wallet;
 import com.example.demo.service.user.IAppUserService;
 import com.example.demo.service.wallet.IWalletService;
@@ -17,6 +18,11 @@ public class WalletAjaxController {
     private IWalletService walletService;
     @Autowired
     private IAppUserService appUserService;
+
+    @ModelAttribute("user")
+    public AppUser getCurrentUser() {
+        return appUserService.getCurrentUser();
+    }
 
     @GetMapping("")
     public ModelAndView showIndex() {
