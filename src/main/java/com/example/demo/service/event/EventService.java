@@ -1,5 +1,6 @@
 package com.example.demo.service.event;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Event;
 import com.example.demo.dto.EventDTO;
 import com.example.demo.model.GroupAction;
@@ -98,8 +99,18 @@ public class EventService implements IEventService {
         return eventRepository.findAllByDateBetween(start, end);
     }
 
-    public List<Wallet> getListWallet(){
-       return eventRepository.getWalletByUser();
+    @Override
+    public List<Event> findAllByDateBetweenAndUser(Date start, Date end, AppUser appUser) {
+        return eventRepository.findAllByDateBetweenAndUser(start, end, appUser);
+    }
+
+    @Override
+    public List<Event> findAllByDateAndUser(Date date, AppUser appUser) {
+        return eventRepository.findAllByDateAndUser(date, appUser);
+    }
+
+    public List<Wallet> getListWallet() {
+        return eventRepository.getWalletByUser();
     }
 
     public ByteArrayInputStream writeToFileExcel() {
