@@ -125,7 +125,9 @@
         </div>
     </div>
 </div>
-
+<form action="/download" mehthod="get">
+    <button type="submit" class="btn btn-link">Download to file excel</button>
+</form>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
         data-bs-whatever="@mdo" onclick="clears()">Create new event
 </button>
@@ -133,18 +135,19 @@
 <!--Table show-->
 <div>
     <div class="row p-3 mr-1 form-group">
-        <div class="col-md-1"></div>
-        <label for="name" class="col-md-2 col-form-label text-right">Name event</label>
-        <input class="form-control col-md-3" id="name" name="name">
-        <input class="form-control col-md-3" id="start-date" type="date">
-        <input class="form-control col-md-3" id="end-date" type="date">
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="group-action">
-            <option value="">All option action</option>
+        <label for="name" class="col-md-1 col-form-label text-right">Name event</label>
+        <input class="form-control1 col-md-2" id="name" name="name">
+        <label for="start-date" class="col-md-1 col-form-label text-right">Start date</label>
+        <input class="form-control1 col-md-2" id="start-date" type="date">
+        <label for="end-date" class="col-md-1 col-form-label text-right">End date</label>
+        <input class="form-control1 col-md-2" id="end-date" type="date">
+        <label for="group-action" class="col-md-1 col-form-label text-right">Action event</label>
+        <select class="form-control1 form-select form-select-lg col-md-2" aria-label=".form-select-lg example" id="group-action">
+            <option value="">Option</option>
             <th:block th:each="c:${listAction}">
                 <option th:value="${c.getId()}" th:text="${c.name}"></option>
             </th:block>
         </select>
-        <div class="col-md-1"></div>
     </div>
 </div>
 <button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>
@@ -318,4 +321,25 @@
         document.getElementById("note_event").value = note;
     }
 </script>
+
+<style>
+    .form-control1 {
+        display: block;
+        /*width: 100%;*/
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+</style>
 </html>
