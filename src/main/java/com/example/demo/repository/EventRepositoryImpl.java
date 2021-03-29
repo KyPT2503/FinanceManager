@@ -53,5 +53,11 @@ public class EventRepositoryImpl implements EventCustomRepository {
         return entityManager.createQuery(sql).getResultList();
     }
 
+    @Override
+    public List<Event> getEventByWallet(String ids) {
+        String sql = "from Event where wallet_id = " + ids ;
+        return entityManager.createQuery(sql).getResultList();
+    }
+
 
 }

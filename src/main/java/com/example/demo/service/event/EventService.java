@@ -109,6 +109,10 @@ public class EventService implements IEventService {
         return eventRepository.findAllByDateAndUser(date, appUser);
     }
 
+    public List<Event> getEventByWallet(String id){
+        return  eventRepository.getEventByWallet(id);
+    }
+
     public List<Wallet> getListWallet() {
         return eventRepository.getWalletByUser();
     }

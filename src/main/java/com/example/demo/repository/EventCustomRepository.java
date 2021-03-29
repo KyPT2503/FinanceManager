@@ -9,4 +9,5 @@ public interface EventCustomRepository {
     List<Event> getEventByCondition(EventDTO event);
     List<Wallet> getWalletByUser();
     List<Event> getListByUser();
+    List<Event> getEventByWallet(String id);
 }
