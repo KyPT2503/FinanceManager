@@ -5,6 +5,7 @@ import com.example.demo.model.Balance;
 import com.example.demo.service.balance.IBalanceService;
 import com.example.demo.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,10 +25,6 @@ public class UserController {
 //        return appUserService.getCurrentUser();
 //    }
 
-    @GetMapping
-    public String homeUser() {
-        return "/users/register";
-    }
 
     @GetMapping("/create")
     public ModelAndView showCreateUser() {
@@ -36,19 +33,5 @@ public class UserController {
         return mav;
     }
 
-
-    @GetMapping("/balance/create")
-    public ModelAndView showFormCreateBalance() {
-        ModelAndView modelAndView = new ModelAndView("/balance/create");
-        modelAndView.addObject("balance",new Balance());
-        return modelAndView;
-    }
-    @PostMapping("/balance/create")
-    public String created(@RequestBody Balance balance) {
-        balance.setAppUser(appUserService.getCurrentUser());
-        balanceService.add(balance);
-//        ModelAndView modelAndView = new ModelAndView("/users/register");
-        return "/users/register";
-    }
 
 }

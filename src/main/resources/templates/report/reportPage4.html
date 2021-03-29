@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        #chartdiv {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <script>
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+        // Add data
+        chart.data = [{
+            "date": new Date(2018, 3, 20),
+            "value": 90
+        }, {
+            "date": new Date(2018, 3, 21),
+            "value": 102
+        }, {
+            "date": new Date(2018, 3, 22),
+            "value": 65
+        }];
+
+        // Create axes
+        var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        //dateAxis.dataFields.category = "category";
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+        // Create series
+        var series = chart.series.push(new am4charts.ColumnSeries());
+        series.dataFields.valueY = "value";
+        series.dataFields.dateX = "date";
+        series.name = "Sales";
+
+        // Create scrollbars
+        chart.scrollbarX = new am4core.Scrollbar();
+        chart.scrollbarY = new am4core.Scrollbar();
+    </script>
+</head>
+<body>
+<script src="//www.amcharts.com/lib/4/core.js"></script>
+<script src="//www.amcharts.com/lib/4/charts.js"></script>
+<div id="chartdiv"></div>
+</body>
+</html>

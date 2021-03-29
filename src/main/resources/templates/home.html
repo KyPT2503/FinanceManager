@@ -52,7 +52,7 @@
     </div>
 
 </nav>
-<div class="modal fade" id="myModal">
+    <form class="modal fade" id="myModal" th:object="balance" method="post">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -82,7 +82,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success"  onclick="createLimit()">Create</button>
+                <button type="submit" class="btn btn-success"  onclick="createLimit()">Create</button>
 
             </div>
             <div class="modal-footer">
@@ -91,7 +91,7 @@
 
         </div>
     </div>
-</div>
+</form>
 
 </body>
 </html>

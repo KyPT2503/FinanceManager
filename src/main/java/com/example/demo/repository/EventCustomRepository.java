@@ -1,5 +1,4 @@
-package com.example.demo.repository.eventrepository;
-
+package com.example.demo.repository;
 import com.example.demo.model.Event;
 import com.example.demo.dto.EventDTO;
 

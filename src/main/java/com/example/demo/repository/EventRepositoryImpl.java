@@ -1,7 +1,10 @@
-package com.example.demo.repository.eventrepository;
+package com.example.demo.repository;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Event;
 import com.example.demo.dto.EventDTO;
+import com.example.demo.model.GroupAction;
+import com.example.demo.model.Wallet;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,7 +30,7 @@ public class EventRepositoryImpl implements EventCustomRepository {
                 && event.getEndDate() != null && !"".equals(event.getEndDate().trim())) {
             sql.append(" and date between " + "'" + event.getDate() + "'" + " and " + "'" + event.getEndDate() + "'");
         }
-        System.out.println(" and date between " + event.getDate() + "and" + event.getEndDate());
         return entityManager.createQuery(sql.toString()).getResultList();
     }
+
 }
