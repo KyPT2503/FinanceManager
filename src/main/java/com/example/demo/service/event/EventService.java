@@ -6,6 +6,7 @@ import com.example.demo.repository.eventrepository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -15,7 +16,7 @@ public class EventService implements IEventService {
 
     @Override
     public List<Event> findAll() {
-        return null;
+        return eventRepository.findAll();
     }
 
     @Override
@@ -41,5 +42,10 @@ public class EventService implements IEventService {
     @Override
     public List<Event> search(EventDTO event) {
         return eventRepository.getEventByCondition(event);
+    }
+
+    @Override
+    public List<Event> findAllByDateBetween(Date start, Date end) {
+        return eventRepository.findAllByDateBetween(start, end);
     }
 }
