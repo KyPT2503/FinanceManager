@@ -26,8 +26,20 @@ public class EventDataController {
     }
 
     @PostMapping("upload")
-    public ResponseEntity uploadEvent(@RequestParam String name, @RequestParam String money, @RequestParam String date, @RequestParam String wallet, @RequestParam String groupAction, @RequestParam String user, @RequestParam String note) {
-        eventService.save(new Event(name, note), date, groupAction, wallet, user, money);
+    public ResponseEntity uploadEvent(@RequestParam String name, @RequestParam String money, @RequestParam String date, @RequestParam String wallet, @RequestParam String groupAction, @RequestParam String note) {
+        eventService.save(new Event(name, note), date, groupAction, wallet, money);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("edit")
+    public ResponseEntity editEvent(@RequestParam String id, @RequestParam String name, @RequestParam String money, @RequestParam String date, @RequestParam String wallet, @RequestParam String groupAction, @RequestParam String note) {
+        eventService.save(eventService.findEventByStringId(id,name,note), date, groupAction, wallet, money);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("delete")
+    public ResponseEntity deleteEvent(@RequestParam String id) {
+        eventService.deleteById(Long.parseLong(id));
         return new ResponseEntity(HttpStatus.OK);
     }
 }

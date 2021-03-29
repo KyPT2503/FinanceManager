@@ -1,4 +1,4 @@
-package com.example.demo.repository.eventrepository;
+package com.example.demo.repository;
 
 import com.example.demo.model.AppUser;
 import com.example.demo.model.Event;
@@ -31,24 +31,6 @@ public class EventRepositoryImpl implements EventCustomRepository {
             sql.append(" and date between " + "'" + event.getDate() + "'" + " and " + "'" + event.getEndDate() + "'");
         }
         return entityManager.createQuery(sql.toString()).getResultList();
-    }
-
-    @Override
-    public Wallet getWalletByFK(String wallet) {
-        Wallet wallets = (Wallet) entityManager.createNativeQuery("select * from wallet where id = " + wallet, Wallet.class).getSingleResult();
-        return wallets;
-    }
-
-    @Override
-    public AppUser getUserByFK(String appUser) {
-        AppUser appUsers = (AppUser) entityManager.createNativeQuery("select * from app_user where id = " + appUser, AppUser.class).getSingleResult();
-        return appUsers;
-    }
-
-    @Override
-    public GroupAction getActionByFK(String groupAction) {
-        GroupAction action = (GroupAction) entityManager.createNativeQuery("select * from group_action where id = " + groupAction, GroupAction.class).getSingleResult();
-        return action;
     }
 
 }

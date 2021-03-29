@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.GroupAction;
 import com.example.demo.model.Wallet;
+import com.example.demo.service.groupaction.GroupActionService;
 import com.example.demo.service.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,18 +14,28 @@ import java.util.List;
 
 @Controller
 public class EventController {
-    @Autowired
     private WalletService walletService;
 
+    private GroupActionService groupActionService;
+
+    @Autowired
+    public EventController(WalletService walletService, GroupActionService groupActionService) {
+        this.walletService = walletService;
+        this.groupActionService = groupActionService;
+    }
+
     @ModelAttribute("listWallet")
-    public List<Wallet> categories() {
-        List<Wallet> listWallet = walletService.findAll();
-        return listWallet;
+    public List<Wallet> getListWallet() {
+        return walletService.findAll();
+    }
+
+    @ModelAttribute("listAction")
+    public List<GroupAction> getListAction() {
+        return groupActionService.findAll();
     }
 
     @GetMapping("event")
     public ModelAndView showListEvent(){
-        ModelAndView m = new ModelAndView("event/view");
-        return m;
+        return new ModelAndView("event/view");
     }
 }
