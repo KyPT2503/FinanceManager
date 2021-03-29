@@ -35,6 +35,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/report").hasRole("USER")
                 .and()
+                .authorizeRequests().antMatchers("/balance").hasRole("USER")
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")

@@ -34,6 +34,6 @@ public class GroupActionService implements IGroupAction {
 
     @Override
     public GroupAction findById(Long id) {
-        return null;
+        return groupActionRepository.getOne(id);
     }
 }

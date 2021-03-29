@@ -182,7 +182,8 @@
                     <label for="end-date" class="col-md-1 col-form-label text-right">End date</label>
                     <input class="form-control1 col-md-2" id="end-date" type="date">
                     <label for="group-action" class="col-md-1 col-form-label text-right">Action event</label>
-                    <select class="form-control1 form-select form-select-lg col-md-2" aria-label=".form-select-lg example" style="width:15.6%" id="group-action">
+                    <select class="form-control1 form-select form-select-lg col-md-2"
+                            aria-label=".form-select-lg example" style="width:15.6%" id="group-action">
                         <option value="">Option</option>
                         <th:block th:each="c:${listAction}">
                             <option th:value="${c.getId()}" th:text="${c.name}"></option>
@@ -195,12 +196,14 @@
             </div>
             <div class="row p-3 mr-1 form-group" style="margin-top:20px">
                 <div class="col-md-2"></div>
-                <button type="button" class="btn btn-primary form-control1 col-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                <button type="button" class="btn btn-primary form-control1 col-md-2" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
                         data-bs-whatever="@mdo" onclick="clears()">Create new event
                 </button>
                 <div class="col-md-4"></div>
                 <form action="/download" mehthod="get" class="form-control1 col-md-2">
-                    <button type="submit" class="btn btn-link" onclick="getListBySearch()">Download to file excel</button>
+                    <button type="submit" class="btn btn-link" onclick="getListBySearch()">Download to file excel
+                    </button>
                 </form>
                 <div class="col-md-2"></div>
             </div>
@@ -278,15 +281,15 @@
     }
 
     function edit() {
-        if(document.getElementById("name_event").value === ""){
+        if (document.getElementById("name_event").value === "") {
             document.getElementById("name_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
             return;
         }
-        if(document.getElementById("event_money").value === ""){
+        if (document.getElementById("event_money").value === "") {
             document.getElementById("money_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập số tiền</p>`;
             return;
         }
-        if(document.getElementById("date_event").value === ""){
+        if (document.getElementById("date_event").value === "") {
             document.getElementById("date_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập ngày/tháng/năm</p>`;
             return;
         }
@@ -317,15 +320,16 @@
     }
 
     function update() {
-        if(document.getElementById("name-event").value === ""){
+        checkBalance();
+        if (document.getElementById("name-event").value === "") {
             document.getElementById("name-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
             return;
         }
-        if(document.getElementById("event-money").value === ""){
+        if (document.getElementById("event-money").value === "") {
             document.getElementById("money-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập số tiền</p>`;
             return;
         }
-        if(document.getElementById("date-event").value === ""){
+        if (document.getElementById("date-event").value === "") {
             document.getElementById("date-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập ngày/tháng/năm</p>`;
             return;
         }
@@ -369,7 +373,7 @@
 
     function remove(id) {
         const data = new FormData();
-        data.append("id",id);
+        data.append("id", id);
         $.ajax({
             url: '/delete',
             data: data,
@@ -386,7 +390,7 @@
         })
     }
 
-    function clears(){
+    function clears() {
         document.getElementById("name-event").value = "";
         document.getElementById("event-money").value = "";
         document.getElementById("date-event").value = "";
@@ -396,7 +400,7 @@
         document.getElementById("date-message").innerHTML = "";
     }
 
-    function setValue(id,name,money,date,wallet,action,note){
+    function setValue(id, name, money, date, wallet, action, note) {
         document.getElementById("name_event").value = name;
         document.getElementById("id_event").value = id;
         document.getElementById("event_money").value = money;
@@ -407,6 +411,17 @@
         document.getElementById("name_message").innerHTML = "";
         document.getElementById("money_message").innerHTML = "";
         document.getElementById("date_message").innerHTML = "";
+    }
+
+    function checkBalance() {
+        $.ajax({
+            type: "GET",
+            url: "/balance/check",
+            success: function (messages) {
+                console.log("Success check!!!");
+                console.log(messages);
+            }
+        })
     }
 </script>
 
@@ -426,7 +441,7 @@
         -moz-appearance: none;
         appearance: none;
         border-radius: .25rem;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
 </style>
 </html>

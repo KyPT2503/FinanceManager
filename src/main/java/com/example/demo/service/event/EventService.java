@@ -109,11 +109,16 @@ public class EventService implements IEventService {
         return eventRepository.findAllByDateAndUser(date, appUser);
     }
 
+    @Override
+    public Double getTotalByUserAndTimeRange(AppUser appUser, Date start, Date end, GroupAction groupAction) {
+        return eventRepository.getTotal(appUser, start, end, groupAction);
+    }
+
     public List<Wallet> getListWallet() {
         return eventRepository.getWalletByUser();
     }
 
-    public List<Event> getListEvents(){
+    public List<Event> getListEvents() {
         return eventRepository.getListByUser();
     }
 
