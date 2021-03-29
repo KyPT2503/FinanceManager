@@ -75,7 +75,8 @@
 
 <!--            <button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>-->
 
-            <table id="table" style="border-radius: 25px; padding: 8px; border: 2px solid #FF1493; word-wrap: break-word;">
+            <table id="table"  style="border-radius: 25px; padding: 8px; border: 2px solid #FF1493; word-wrap: break-word;"
+            >
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
@@ -210,14 +211,11 @@
             url: "/wallet/update",
             data: JSON.stringify(newWallet),
             success: function (wallet) {
-                //disable update form
                 $('#update-form').innerHTML = "";
-                //replace value of new wallet in table
                 let newRow = "<td>" + wallet.id + "</td>";
                 newRow += "<td>" + wallet.name + "</td>";
                 newRow += "<td>" + wallet.money + "</td>";
-                newRow += "<td><button id='" + wallet.id + "'  class=\"update btn btn-success\"" +
-                    ">Update</button></td>";
+                newRow += "<td><button id='" + wallet.id + "'  class=\"update btn btn-success\">Update</button></td>";
                 newRow += "<td><button id='" + wallet.id + "'  class=\"remove btn btn-danger\">Remove</button></td>";
                 $(wallet.id).parent().parent().innerHTML = newRow;
             }
