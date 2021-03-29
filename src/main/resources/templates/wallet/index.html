@@ -141,9 +141,7 @@
             url: "/wallet/update",
             data: JSON.stringify(newWallet),
             success: function (wallet) {
-                //disable update form
                 $('#update-form').innerHTML = "";
-                //replace value of new wallet in table
                 let newRow = "<td>" + wallet.id + "</td>";
                 newRow += "<td>" + wallet.name + "</td>";
                 newRow += "<td>" + wallet.money + "</td>";
