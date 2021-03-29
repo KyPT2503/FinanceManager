@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        #chart1 {
+            max-width: 650px;
+            margin: 35px auto;
+        }
+        #chart {
+            max-width: 650px;
+            margin: 35px auto;
+        }
+
+    </style>
+
+</head>
+<body>
+<div>
+    <form method="post">
+        <input type="date" name="start">
+        <input type="date" name="end">
+        <input type="submit" value="Search">
+    </form>
+</div>
+<table>
+    <tr>
+        <td>Thu</td>
+        <td>Chi</td>
+    </tr>
+    <tr>
+        <td><div id="chart1"></div></td>
+        <td><div id="chart2"></div></td>
+    </tr>
+</table>
+<div id="chart">
+</div>
+<script th:inline="javascript">
+    var options = {
+        series: [[${thu.values()}]],
+        chart: {
+            width: 380,
+            type: 'pie',
+        },
+        labels: [[${thu.keySet()}]],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+    var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
+    chart1.render();
+    // ----------------------------------------
+    var options = {
+        series: [[${chi.values()}]],
+        chart: {
+            width: 380,
+            type: 'pie',
+        },
+        labels: [[${chi.keySet()}]],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
+    var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+    chart2.render();
+// -------------------------------------------
+    var options = {
+        series: [{
+            name: 'Thu',
+            data: [[${thu.values()}]]
+        }, {
+            name: 'Chi',
+            data: [[${chi.values()}]]
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded'
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: [[${date}]],
+        },
+        yaxis: {
+            title: {
+                text: '$ (VND)'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return "$ " + val + " VND"
+                }
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
+</body>
+</html>
