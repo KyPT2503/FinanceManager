@@ -1,79 +1,58 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EventDTO;
+import com.example.demo.model.AppUser;
+import com.example.demo.model.Event;
 import com.example.demo.model.Wallet;
 import com.example.demo.service.user.IAppUserService;
 import com.example.demo.service.wallet.IWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/wallets")
+@RestController
+@RequestMapping("/wallet")
 public class WalletController {
     @Autowired
     private IWalletService walletService;
     @Autowired
     private IAppUserService appUserService;
 
-    @GetMapping("")
-    public ModelAndView fillAll() {
-        List<Wallet> walletList = walletService.findAll();
-        ModelAndView modelAndView = new ModelAndView("wallet/list");
-        modelAndView.addObject("wallet", walletList);
-        return modelAndView;
+    @ModelAttribute("user")
+    public AppUser getCurrentUser() {
+        return appUserService.getCurrentUser();
     }
 
-    @GetMapping("/create")
-    public ModelAndView formCreate() {
-        ModelAndView modelAndView = new ModelAndView("wallet/create");
-        modelAndView.addObject("wallet", new Wallet());
-        return modelAndView;
+    @GetMapping("")
+    public ModelAndView showIndex() {
+        return new ModelAndView("wallet/index", "wallet", walletService.findByUser(appUserService.getCurrentUser()));
     }
 
     @PostMapping("/create")
-    public ModelAndView create(@ModelAttribute Wallet wallet) {
-        ModelAndView modelAndView = new ModelAndView("wallet/create");
+    public Wallet createWallet(@RequestBody Wallet wallet) {
         wallet.setAppUser(appUserService.getCurrentUser());
-        walletService.add(wallet);
-        modelAndView.addObject("wallet",wallet);
-        modelAndView.addObject("mess", "Thêm mới thành công ví :" + wallet.getName());
-        return modelAndView;
+        return walletService.add(wallet);
+
     }
 
-    @GetMapping("/edit/{id}")
-    public ModelAndView showEdit(@PathVariable Long id) {
-        Wallet wallet = walletService.findById(id);
-        ModelAndView modelAndView = new ModelAndView("wallet/edit");
-        modelAndView.addObject("wallet", wallet);
-        return modelAndView;
-    }
-
-    @PostMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable Long id, @ModelAttribute Wallet wallet) {
-        wallet.setId(id);
-        wallet.setAppUser(appUserService.getCurrentUser());
-        walletService.add(wallet);
-        return new ModelAndView("redirect:/wallets");
-    }
-
-    @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView("redirect:/wallets");
+    @DeleteMapping("/remove/{id}")
+    public String removeWallet(@PathVariable Long id) {
         walletService.deleteWallet(id);
-        return modelAndView;
+        return "Removed wallet, id:" + id;
     }
 
-
-    @PostMapping("/search")
-    public ModelAndView searchWalletByName(@RequestParam String search) {
-        search = "%" + search + "%";
-        List<Wallet> wallets = walletService.findByWalletName(search);
-        if (wallets.size() == 0) return new ModelAndView("error-404");
-        ModelAndView modelAndView=new ModelAndView("wallet/list");
-        modelAndView.addObject("wallet",wallets);
-        return modelAndView;
+    @GetMapping("/{id}")
+    public Wallet getSingleWallet(@PathVariable("id") Wallet wallet) {
+        return wallet;
     }
+
+    @PutMapping("/update")
+    public Wallet updateWallet(@RequestBody Wallet wallet) {
+        wallet.setAppUser(appUserService.getCurrentUser());
+        walletService.update(wallet);
+        return wallet;
+    }
+
 }
