@@ -81,10 +81,15 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public Event findEventByStringId(String id,String name,String note) {
+    public Event findEventByStringId(String id, String name, String note) {
         Event event = findById(Long.parseLong(id));
         event.setName(name);
         event.setNote(note);
         return event;
+    }
+
+    @Override
+    public List<Event> findAllByDateBetween(Date start, Date end) {
+        return eventRepository.findAllByDateBetween(start, end);
     }
 }
