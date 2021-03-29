@@ -43,8 +43,8 @@ public class ReportController {
         Date end = Date.valueOf(yearMonth.atEndOfMonth());
         Map<String, Double> thu = new HashMap<>();
         Map<String, Double> chi = new HashMap<>();
-        Map<Double, Double> thuchi = new HashMap<>();
         Map<Date, Map<Double, Double>> thuchitime = new HashMap<>();
+        Map<Double, Double> thuchi = new HashMap<>();
         ArrayList<Date> date = new ArrayList();
         String time = start.toString() + " / " + end.toString();
         Double tongthu = 0.0;
@@ -69,9 +69,10 @@ public class ReportController {
                 } else if (e.getGroupAction().getId() == 2) {
                     totalChiInDay += e.getMoney();
                 }
+                thuchi.put(totalThuInDay, totalChiInDay);
+                Date date1 = (Date) d.clone();
+                thuchitime.put(date1, thuchi);
             }
-            thuchi.put(totalThuInDay, totalChiInDay);
-            thuchitime.put(d, thuchi);
         }
 
         modelAndView.addObject("tongthu", tongthu);
@@ -87,13 +88,11 @@ public class ReportController {
 
     @PostMapping("/report")
     public ModelAndView searchEvent(@RequestParam Date start, Date end) {
-        start.setDate(start.getDate()-1);
-        end.setDate(end.getDate()+1);
         ModelAndView modelAndView = new ModelAndView("/report/reportPage5");
         Map<String, Double> thu = new HashMap<>();
         Map<String, Double> chi = new HashMap<>();
+        Map<Date, Map<Double, Double>> thuchitime = new HashMap<>();
         Map<Double, Double> thuchi = new HashMap<>();
-        Map<Date, Double[]> thuchitime = new HashMap<>();
         ArrayList<Date> date = new ArrayList();
         String time = start.toString() + " / " + end.toString();
         Double tongthu = 0.0;
@@ -118,9 +117,10 @@ public class ReportController {
                 } else if (e.getGroupAction().getId() == 2) {
                     totalChiInDay += e.getMoney();
                 }
+                thuchi.put(totalThuInDay, totalChiInDay);
+                Date date1 = (Date) d.clone();
+                thuchitime.put(date1, thuchi);
             }
-            thuchi.put(totalThuInDay, totalChiInDay);
-            thuchitime.put(d, new Double[]{totalThuInDay,totalChiInDay});
         }
 
         modelAndView.addObject("tongthu", tongthu);
