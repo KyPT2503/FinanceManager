@@ -60,15 +60,15 @@ public class WalletController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable Long id,@PathVariable Wallet wallet){
+    public ModelAndView delete(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("redirect:/wallets");
-        walletService.remove(wallet);
+        walletService.deleteWallet(id);
         return modelAndView;
     }
 
 
     @PostMapping("/search")
-    public ModelAndView searchProductByName(@RequestParam String search) {
+    public ModelAndView searchWalletByName(@RequestParam String search) {
         search = "%" + search + "%";
         List<Wallet> wallets = walletService.findByWalletName(search);
         if (wallets.size() == 0) return new ModelAndView("error-404");

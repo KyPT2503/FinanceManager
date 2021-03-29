@@ -8,4 +8,6 @@ import java.util.List;
 public interface IWalletService extends IGeneralService<Wallet> {
     List<Wallet> findByWalletName(String name);
 
+    void deleteWallet(Long id);
+
 }

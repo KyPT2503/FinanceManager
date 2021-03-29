@@ -1,0 +1,9 @@
+.navbar {
+    background-color: rgba(159,21,255,0.67) !important;
+}
+.navbar li a{
+    color: cyan !important;
+}
+.navbar li a:hover {
+    color: #1e7e34 !important;
+}

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallet</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-xl justify-content-center navbar-expand-lg  bg-dark navbar-dark" style="">
+        <a class="navbar-brand" href="/home" th:text="${'Hi, '+user.name}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item border-bottom">
+                    <button class="btn btn-danger"><a href="/logout" style="color: white">Logout</a></button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-lg-2" style="padding: 0">
+            <nav class="navbar bg-secondary navbar-dark">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">Wallets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/event">Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Balance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-lg-10" style="background-color: cornflowerblue;height:100vh;">
+            <form id="submit">
+                <input type="hidden" id="id" value="0">
+                <label for="name">Name:</label><input type="text" id="name">
+                <label for="name">Money:</label><input type="text" id="money">
+                <input type="submit" value="Save">
+            </form>
+            <table id="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Money</th>
+                </tr>
+                <tr th:each="w:${wallet}">
+                    <td th:text="${w.id}"></td>
+                    <td th:text="${w.name}"></td>
+                    <td th:text="${w.money}"></td>
+                    <td>
+                        <button th:id="${w.id}" class="update">Update</button>
+                    </td>
+                    <td>
+                        <button th:id="${w.id}" class="remove">Remove</button>
+                    </td>
+                </tr>
+            </table>
+            <div id="form-place"></div>
+        </div>
+    </div>
+</div>
+<!--===================================-->
+<script>
+    $(document).ready(function () {
+        $('#submit').submit(function (event) {
+            let id = $('#id').val();
+            let name = $('#name').val();
+            let money = $('#money').val();
+            let walletToSend = {
+                "id": id, "name": name, "money": money
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                data: JSON.stringify(walletToSend),
+                url: "/wallet/create",
+                success: function (walletZZ) {
+                    let newTr = "<tr>";
+                    newTr += "<td>" + walletZZ.id + "</td>";
+                    newTr += "<td>" + walletZZ.name + "</td>";
+                    newTr += "<td>" + walletZZ.money + "</td>";
+                    newTr += "<td><button onclick='prepareUpdate(this)' id='" + walletZZ.id + "' class='update'>Update</button></td>";
+                    newTr += "<td><button class='remove' id='" + walletZZ.id + "'>Remove</button></td>";
+                    newTr += "</tr>";
+                    $('#table').append(newTr);
+
+                }
+            })
+            event.preventDefault();
+        })
+        $(document).on("click", ".remove", function () {
+            let button = $(this);
+            console.log($(this));
+            $.ajax({
+                type: "DELETE",
+                url: "/wallet/remove/" + button.attr("id"),
+                success: function () {
+                    button.parent().parent().remove();
+                }
+            })
+            event.preventDefault();
+        });
+        $('.update').click(function () {
+            //set value in form
+            let button = $(this);
+            $.ajax({
+                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                type: "GET",
+                url: "/wallet/" + button.attr("id"),
+                success: function (wallet) {
+                    let form = "<form id=\"update-form\" onclick='update()'>" +
+                        "<label for=\"update-id\">ID</label>" +
+                        "<input type=\"text\" id=\"update-id\" disabled><br>" +
+                        "<label for=\"update-name\">Name</label>" +
+                        "<input type=\"text\" id=\"update-name\"><br>" +
+                        "<label for=\"update-money\">Money</label>" +
+                        "<input type=\"text\" id=\"update-money\"><br>" +
+                        "<input type=\"submit\" value=\"Update\">" + "" +
+                        "</form>";
+
+                    $('#form-place').append(form);
+                    $('#update-id').val(wallet.id);
+                    $('#update-name').val(wallet.name);
+                    $('#update-money').val(wallet.money);
+                }
+            })
+        })
+    });
+
+    function prepareUpdate(node) {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: "/wallet/" + node.id,
+            success: function (wallet) {
+                let form = "<form id=\"update-form\" onclick='update()'>" +
+                    "<label for=\"update-id\">ID</label>" +
+                    "<input type=\"text\" id=\"update-id\" disabled><br>" +
+                    "<label for=\"update-name\">Name</label>" +
+                    "<input type=\"text\" id=\"update-name\">" +
+                    "<label for=\"update-money\">Money</label>" +
+                    "<input type=\"text\" id=\"update-money\">" +
+                    "<br><input type=\"submit\" value=\"Update\"></form>";
+
+                $('#form-place').append(form);
+                $('#update-id').val(wallet.id);
+                $('#update-name').val(wallet.name);
+                $('#update-money').val(wallet.money);
+            }
+        })
+    }
+
+    function update() {
+        let id = $('#update-id').val();
+        let name = $('#update-name').val();
+        let money = $('#update-money').val();
+        let newWallet = {"id": id, "name": name, "money": money};
+        $.ajax({
+            headers: {
+                'Accept': 'application/json', 'Content-Type': 'application/json'
+            },
+            type: "PUT",
+            url: "/wallet/update",
+            data: JSON.stringify(newWallet),
+            success: function (wallet) {
+                //disable update form
+                $('#update-form').innerHTML = "";
+                //replace value of new wallet in table
+                let newRow = "<td>" + wallet.id + "</td>";
+                newRow += "<td>" + wallet.name + "</td>";
+                newRow += "<td>" + wallet.money + "</td>";
+                newRow += "<td><button id='" + wallet.id + "' class='update'>Update</button></td>";
+                newRow += "<td><button id='" + wallet.id + "' class='remove'>Remove</button></td>";
+                $(wallet.id).parent().parent().innerHTML = newRow;
+            }
+        })
+    }
+</script>
+</body>
+</html>
