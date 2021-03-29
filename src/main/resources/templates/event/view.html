@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+            integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+            integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--Modal edit-->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabels" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabels">Edit event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="hidden" id="id_event">
+                        <label for="name-event" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name_event">
+                        <div id="name_message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-money" class="col-form-label">Money:</label>
+                        <input class="form-control" id="event_money" type="text">
+                        <div id="money_message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Date:</label><br>
+                        <input type="date" id="date_event">
+                        <div id="date_message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Wallet:</label>
+                        <select class="form-select" aria-label="Default select example" id="wallet_event">
+                            <th:block th:each="p: ${listWallet}">
+                                <option th:value="${p.getId()}" th:text="${p.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Action:</label>
+                        <select class="form-select" aria-label="Default select example" id="action_event">
+                            <th:block th:each="c:${listAction}">
+                                <option th:value="${c.getId()}" th:text="${c.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name-event" class="col-form-label">Note:</label>
+                        <input type="text" class="form-control" id="note_event">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="edit()">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal create-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name-event" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name-event">
+                        <div id="name-message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event-money" class="col-form-label">Money:</label>
+                        <input class="form-control" id="event-money" type="text">
+                        <div id="money-message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Date:</label><br>
+                        <input type="date" id="date-event">
+                        <div id="date-message"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Wallet:</label>
+                        <select class="form-select" aria-label="Default select example" id="wallet-event">
+                            <th:block th:each="p: ${listWallet}">
+                                <option th:value="${p.getId()}" th:text="${p.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Action:</label>
+                        <select class="form-select" aria-label="Default select example" id="action-event">
+                            <th:block th:each="c:${listAction}">
+                                <option th:value="${c.getId()}" th:text="${c.name}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name-event" class="col-form-label">Note:</label>
+                        <input type="text" class="form-control" id="note-event">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="update()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-xl justify-content-center navbar-expand-lg  bg-dark navbar-dark" style="">
+        <a class="navbar-brand" href="/home" th:text="${'Hi, '+user.name}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item border-bottom">
+                    <button class="btn btn-danger"><a href="/logout" style="color: white">Logout</a></button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-lg-2" style="padding: 0">
+            <nav class="navbar bg-secondary navbar-dark">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">Wallets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/event">Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/report">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Balance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-lg-10" style="background-color: cornflowerblue;height:100vh;">
+            <!--Table show-->
+            <div style="margin-top: 20px">
+                <div class="row p-3 mr-1 form-group">
+                    <label for="name" class="col-md-1 col-form-label text-right">Name event</label>
+                    <input class="form-control1 col-md-2" id="name" name="name">
+                    <label for="start-date" class="col-md-1 col-form-label text-right">Start date</label>
+                    <input class="form-control1 col-md-2" id="start-date" type="date">
+                    <label for="end-date" class="col-md-1 col-form-label text-right">End date</label>
+                    <input class="form-control1 col-md-2" id="end-date" type="date">
+                    <label for="group-action" class="col-md-1 col-form-label text-right">Action event</label>
+                    <select class="form-control1 form-select form-select-lg col-md-2"
+                            aria-label=".form-select-lg example" style="width:15.6%" id="group-action">
+                        <option value="">Option</option>
+                        <th:block th:each="c:${listAction}">
+                            <option th:value="${c.getId()}" th:text="${c.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-left: 100px">
+                <button type="button" class="btn btn-primary mr-3" onclick="search()">Search</button>
+            </div>
+            <div class="row p-3 mr-1 form-group" style="margin-top:20px">
+                <div class="col-md-2"></div>
+                <button type="button" class="btn btn-primary form-control1 col-md-2" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-bs-whatever="@mdo" onclick="clears()">Create new event
+                </button>
+                <div class="col-md-4"></div>
+                <form action="/download" mehthod="get" class="form-control1 col-md-2">
+                    <button type="submit" class="btn btn-link" onclick="getListBySearch()">Download to file excel
+                    </button>
+                </form>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="p-3">
+                <h1 style="text-align:center; font-style: oblique; color: #ac2925">List your events</h1>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">STT</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Money</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Wallet</th>
+                        <th scope="col">Action</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-event">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    search();
+
+    function search() {
+        const event = {
+            name: document.getElementById("name").value,
+            groupAction: document.getElementById("group-action").value,
+            date: document.getElementById("start-date").value,
+            endDate: document.getElementById("end-date").value
+        }
+        $.ajax('http://localhost:8080/show',
+            {
+                dataType: 'json',
+                timeout: 500,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(event),
+                success: loadTables,
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(jqXhr)
+                }
+            });
+    }
+
+    function getListBySearch() {
+        const event = {
+            name: document.getElementById("name").value,
+            groupAction: document.getElementById("group-action").value,
+            date: document.getElementById("start-date").value,
+            endDate: document.getElementById("end-date").value
+        }
+        $.ajax('http://localhost:8080/download',
+            {
+                dataType: 'json',
+                timeout: 500,
+                type: 'GET',
+                contentType: 'application/json',
+                data: JSON.stringify(event),
+                success: function (data) {
+                    console.log(data);
+                    search();
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(jqXhr)
+                }
+            });
+    }
+
+    function edit() {
+        if (document.getElementById("name_event").value === "") {
+            document.getElementById("name_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
+            return;
+        }
+        if (document.getElementById("event_money").value === "") {
+            document.getElementById("money_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập số tiền</p>`;
+            return;
+        }
+        if (document.getElementById("date_event").value === "") {
+            document.getElementById("date_message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập ngày/tháng/năm</p>`;
+            return;
+        }
+        let fd = new FormData();
+        fd.append("id", document.getElementById("id_event").value);
+        fd.append("name", document.getElementById("name_event").value);
+        fd.append("money", document.getElementById("event_money").value);
+        fd.append("date", document.getElementById("date_event").value);
+        fd.append("wallet", document.getElementById("wallet_event").value);
+        fd.append("groupAction", document.getElementById("action_event").value);
+        fd.append("note", document.getElementById("note_event").value);
+        $.ajax({
+            url: '/edit',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                search();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr)
+            }
+        });
+
+        console.log("edit")
+    }
+
+    function update() {
+        checkBalance();
+        if (document.getElementById("name-event").value === "") {
+            document.getElementById("name-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa điền tên</p>`;
+            return;
+        }
+        if (document.getElementById("event-money").value === "") {
+            document.getElementById("money-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập số tiền</p>`;
+            return;
+        }
+        if (document.getElementById("date-event").value === "") {
+            document.getElementById("date-message").innerHTML = `<p style="color:red; font-style: oblique">Chưa nhập ngày/tháng/năm</p>`;
+            return;
+        }
+        let fd = new FormData();
+        fd.append("name", document.getElementById("name-event").value);
+        fd.append("money", document.getElementById("event-money").value);
+        fd.append("date", document.getElementById("date-event").value);
+        fd.append("wallet", document.getElementById("wallet-event").value);
+        fd.append("groupAction", document.getElementById("action-event").value);
+        fd.append("note", document.getElementById("note-event").value);
+        $.ajax({
+            url: '/upload',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                search();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr)
+            }
+        });
+
+        console.log("update")
+    }
+
+    function loadTables(data) {
+        const row = document.getElementById("table-event");
+        let html = "";
+        let index = 0;
+        data.forEach(val => {
+            index++;
+            html += `<tr><td><input type="hidden" value="${val.id}"></td><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td>
+<td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setValue('${val.id}','${val.name}','${val.money}','${val.date}','${val.wallet.id}','${val.groupAction.id}','${val.note}')">Edit</button></td>
+<td><button type="button" class="btn btn-warning" onclick="remove('${val.id}')">Delete</button></td></tr>`
+        })
+        row.innerHTML = html;
+    }
+
+    function remove(id) {
+        const data = new FormData();
+        data.append("id", id);
+        $.ajax({
+            url: '/delete',
+            data: data,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+                search();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr)
+            }
+        })
+    }
+
+    function clears() {
+        document.getElementById("name-event").value = "";
+        document.getElementById("event-money").value = "";
+        document.getElementById("date-event").value = "";
+        document.getElementById("note-event").value = "";
+        document.getElementById("name-message").innerHTML = "";
+        document.getElementById("money-message").innerHTML = "";
+        document.getElementById("date-message").innerHTML = "";
+    }
+
+    function setValue(id, name, money, date, wallet, action, note) {
+        document.getElementById("name_event").value = name;
+        document.getElementById("id_event").value = id;
+        document.getElementById("event_money").value = money;
+        document.getElementById("date_event").value = date;
+        document.getElementById("wallet_event").value = wallet;
+        document.getElementById("action_event").value = action;
+        document.getElementById("note_event").value = note;
+        document.getElementById("name_message").innerHTML = "";
+        document.getElementById("money_message").innerHTML = "";
+        document.getElementById("date_message").innerHTML = "";
+    }
+
+    function checkBalance() {
+        $.ajax({
+            type: "GET",
+            url: "/balance/check",
+            success: function (messages) {
+                console.log("Success check!!!");
+                console.log(messages);
+            }
+        })
+    }
+</script>
+
+<style>
+    .form-control1 {
+        display: block;
+        /*width: 100%;*/
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+</style>
+</html>

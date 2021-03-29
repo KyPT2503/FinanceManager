@@ -16,12 +16,18 @@ public class Event {
     @ManyToOne
     private GroupAction groupAction;
     private String name;
-    private double money;
+    private Double money;
     private Date date;
     private String note;
 
     public Event() {
     }
+
+    public Event(String name, String note) {
+        this.name = name;
+        this.note = note;
+    }
+
 
     public Long getId() {
         return id;
@@ -63,11 +69,11 @@ public class Event {
         this.name = name;
     }
 
-    public double getMoney() {
+    public Double getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(Double money) {
         this.money = money;
     }
 

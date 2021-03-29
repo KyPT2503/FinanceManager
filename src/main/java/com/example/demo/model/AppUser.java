@@ -3,6 +3,8 @@ package com.example.demo.model;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table
@@ -10,12 +12,16 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email(message = "Not valid email")
     private String email;
+    @Pattern(regexp = "[a-zA-Z0-9]{8,}", message = "Password must be more than 8 characters")
     private String password;
     private String name;
     private String avatar;
     @Transient
     private MultipartFile avatarFile;
+    @ManyToOne
+    private AppRole role;
 
     public AppUser() {
     }
@@ -66,5 +72,13 @@ public class AppUser {
 
     public void setAvatarFile(MultipartFile avatarFile) {
         this.avatarFile = avatarFile;
+    }
+
+    public AppRole getRole() {
+        return role;
+    }
+
+    public void setRole(AppRole role) {
+        this.role = role;
     }
 }
