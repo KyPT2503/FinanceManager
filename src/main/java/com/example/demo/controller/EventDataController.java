@@ -7,11 +7,12 @@ import com.example.demo.service.wallet.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,18 @@ public class EventDataController {
     public ResponseEntity deleteEvent(@RequestParam String id) {
         eventService.deleteById(Long.parseLong(id));
         return new ResponseEntity(HttpStatus.OK);
+    }
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public ModelAndView download1(HttpServletResponse response) {
+        try {
+            InputStream inputStream = eventService.writeToFileExcel();
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-disposition", "attachment; filename=file.xlsx");
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ModelAndView("event/view");
     }
 
 }
