@@ -13,6 +13,7 @@
 <div class="container-fluid">
     <nav class="navbar navbar-expand-xl justify-content-center navbar-expand-lg  bg-dark navbar-dark" style="">
         <a class="navbar-brand" href="/home" th:text="${'Hi, '+user.name}"></a>
+        <img th:src="@{'../'+${user.avatar}}" alt="" style="height:25px;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
