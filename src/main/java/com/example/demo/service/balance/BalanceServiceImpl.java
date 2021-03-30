@@ -1,5 +1,6 @@
 package com.example.demo.service.balance;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Balance;
 import com.example.demo.repository.BalanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class BalanceServiceImpl implements IBalanceService{
 
     @Override
     public Balance findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Balance> findAllByUser(AppUser appUser) {
         return null;
     }
 }

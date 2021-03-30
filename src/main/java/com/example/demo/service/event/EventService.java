@@ -92,4 +92,5 @@ public class EventService implements IEventService {
     public List<Event> findAllByDateBetween(Date start, Date end) {
         return eventRepository.findAllByDateBetween(start, end);
     }
+
 }
