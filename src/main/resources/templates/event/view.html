@@ -208,8 +208,8 @@
                         data-bs-whatever="@mdo" onclick="clears()">Create new event
                 </button>
                 <div class="col-md-4"></div>
-                <form action="/download" mehthod="get" class="form-control1 col-md-2">
-                    <button type="submit" class="btn btn-link" onclick="getListBySearch()">Download to file excel
+                <form action="/download" method="get" class="form-control1 col-md-2">
+                    <button type="submit" class="btn btn-link">Download to file excel
                     </button>
                 </form>
                 <div class="col-md-2"></div>
@@ -371,6 +371,7 @@
         let html = "";
         let index = 0;
         data.forEach(val => {
+            index++;
             index++;
             html += `<tr><td><input type="hidden" value="${val.id}"></td><td>${index}</td><td>${val.name}</td><td>${val.money}</td><td>${val.date}</td><td>${val.wallet.name}</td><td>${val.groupAction.name}</td>
 <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setValue('${val.id}','${val.name}','${val.money}','${val.date}','${val.wallet.id}','${val.groupAction.id}','${val.note}')">Edit</button></td>

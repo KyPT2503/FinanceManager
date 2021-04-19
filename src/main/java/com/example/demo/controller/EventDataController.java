@@ -57,5 +57,4 @@ public class EventDataController {
         }
         return new ModelAndView("event/view");
     }
-
 }
